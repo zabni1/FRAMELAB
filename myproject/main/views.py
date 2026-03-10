@@ -24,6 +24,7 @@ class CategoryPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryPageView, self).get_context_data(**kwargs)
+        context['show_cat'] = self.kwargs['show_cat']
         context['page'] = 1
         return context
 
