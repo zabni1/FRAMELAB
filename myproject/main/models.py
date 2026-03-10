@@ -1,3 +1,46 @@
 from django.db import models
+from django.db.models import ForeignKey
+from django.urls import reverse
 
-# Create your models here.
+
+class LanguageDetail(models.Model):
+      name = models.CharField(max_length=100)
+      description = models.CharField(max_length=100)
+      photo = models.ImageField(upload_to = 'photos')
+      slug = models.SlugField(max_length=100, unique=True)
+      category = models.ForeignKey('LanguageDetailCategory', on_delete=models.CASCADE)
+
+      def __str__(self):
+          return f"Назва: {self.name}"
+
+      def get_absolute_url(self):
+          return reverse('detail', kwargs={'show_more': self.slug})
+
+class Language(models.Model):
+      name = models.CharField(max_length=100)
+      photo = models.ImageField(upload_to = 'photos')
+      slug = models.SlugField(max_length=100, unique=True)
+
+      def __str__(self):
+          return f"Назва: {self.name}"
+
+      def get_absolute_url(self):
+          return reverse('category', kwargs={'show_cat': self.slug})
+
+class LanguageDetailCategory(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    def __str__(self):
+        return f"Назва: {self.name}"
+
+
+# class Chat(models.Model):
+#       user1 = ForeignKey('User', on_delete=models.CASCADE)
+#       user2 = ForeignKey('User', on_delete=models.CASCADE)
+
+# class Message(models.Model):
+# #     chat = ForeignKey('', on_delete=models.CASCADE)
+# #     sender = ForeignKey('User', on_delete=models.CASCADE)
+# #     message = models.TextField()
+# #     to = models.ForeignKey('User', on_delete=models.CASCADE)
