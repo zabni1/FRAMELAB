@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, FormView, UpdateView
 from .forms import QueryForm
-from .models import Language, LanguageDetail
+from .models import Language, LanguageDetail, LanguageDetailCategory
 
 
 class HomePageView(TemplateView):
@@ -19,19 +19,32 @@ class HomePageView(TemplateView):
         return context
 
 
-class CategoryPageView(ListView):
+class CategoryPageView(TemplateView):
     template_name = ''
 
     def get_context_data(self, **kwargs):
         context = super(CategoryPageView, self).get_context_data(**kwargs)
-        context['detail'] = get_object_or_404(LanguageDetail, slug=self.kwargs['cat_slug'])
+        context['page'] = 1
         return context
 
-    def get_queryset(self):
-        return LanguageDetail.objects.all()
 
 class UpdateCategoryPageView(View):
-    pass
+    def get(self, request):
+        if self.kwargs['page'] == 1:
+            context = {
+            'detail': LanguageDetail.objects.filter(lang__slug=self.kwargs['show_cat'],cat_id=self.kwargs['page']),
+            'category': LanguageDetailCategory.objects.get(id=self.kwargs['page']),
+            'page': self.kwargs['page'] + 1
+            }
+            return render(request, '', context)
+        else:
+            context = {
+            'detail': LanguageDetail.objects.filter(lang__slug=self.kwargs['show_cat'],cat_id=self.kwargs['page']),
+            'category': LanguageDetailCategory.objects.get(id=self.kwargs['page'])
+            }
+            return render(request, '', context)
+
+
 
 class DetailPageView(DetailView):
     template_name = ''

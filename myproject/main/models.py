@@ -8,7 +8,8 @@ class LanguageDetail(models.Model):
       description = models.CharField(max_length=100)
       photo = models.ImageField(upload_to = 'photos')
       slug = models.SlugField(max_length=100, unique=True)
-      category = models.ForeignKey('LanguageDetailCategory', on_delete=models.CASCADE)
+      lang = models.ForeignKey('Language', on_delete=models.CASCADE)
+      cat = models.ForeignKey('LanguageDetailCategory', on_delete=models.CASCADE)
 
       def __str__(self):
           return f"Назва: {self.name}"
