@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вхід та реєстрація</title>
+  <link rel="stylesheet" href="css/reg.css" />
+</head>
+<body>
+  <div class="form-container">
+    <input type="checkbox" id="toggle" hidden />
+    <div class="form-wrapper">
+      <!-- Форма Входа -->
+      <form class="form login-form" novalidate>
+        <h2>Вхід</h2>
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Пароль" required />
+        <button type="submit">Вхід</button>
+        <label for="toggle" class="toggle-label">
+          Нема акаунта? <span>Зареєструватися</span>
+        </label>
+      </form>
+
+      <!-- Форма Регистрации -->
+      <form class="form register-form" novalidate>
+        <h2>Реєстрація</h2>
+        <input type="text" placeholder="Ім'я" required />
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Пароль" required />
+        <button type="submit">Зареєструватися</button>
+        <label for="toggle" class="toggle-label">
+          Вже є акаунт? <span>Вхід</span>
+        </label>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
