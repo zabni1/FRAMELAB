@@ -1,0 +1,23 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block title %}{{ lang.name }}{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div>
+        {% for a in categories %}
+        {% if a.cat.slug == frameworks %}
+        {{ a.name }}
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div>
+        {% for a in categories %}
+        {% if a.cat.slug == libraries %}
+        {{ a.name }}
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

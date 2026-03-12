@@ -1,8 +1,8 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
+from django.template.response import TemplateResponse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, FormView, UpdateView
-from .forms import QueryForm
 from .models import Language, LanguageDetail, LanguageDetailCategory
 
 
@@ -12,39 +12,29 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
         context['languages'] = Language.objects.all()
-        context['form'] = QueryForm()
-        query = self.request.GET.get('q')
-        if query:
-            context['languages'] = LanguageDetail.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
         return context
 
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        if request.headers.get('HX-Request'):
+            query = request.GET.get('query')
+            language = LanguageDetail.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+            return render(request, 'partials/search.html', {'query': query, 'languages': language})
+        return render(request, 'main/index.html', context)
 
-class CategoryPageView(TemplateView):
+
+class CategoryPageView(ListView):
     template_name = ''
+    context_object_name = 'categories'
+    allow_empty = False
 
     def get_context_data(self, **kwargs):
         context = super(CategoryPageView, self).get_context_data(**kwargs)
-        context['show_cat'] = self.kwargs['show_cat']
-        context['page'] = 1
+        context['lang'] = Language.objects.get(slug=self.kwargs['show_cat'])
         return context
 
-
-class UpdateCategoryPageView(View):
-    def get(self, request):
-        if self.kwargs['page'] == 1:
-            context = {
-            'detail': LanguageDetail.objects.filter(lang__slug=self.kwargs['show_cat'],cat_id=self.kwargs['page']),
-            'category': LanguageDetailCategory.objects.get(id=self.kwargs['page']),
-            'page': self.kwargs['page'] + 1
-            }
-            return render(request, '', context)
-        else:
-            context = {
-            'detail': LanguageDetail.objects.filter(lang__slug=self.kwargs['show_cat'],cat_id=self.kwargs['page']),
-            'category': LanguageDetailCategory.objects.get(id=self.kwargs['page'])
-            }
-            return render(request, '', context)
-
+    def get_queryset(self):
+        return LanguageDetail.objects.filter(lang__slug=self.kwargs['show_cat']).select_related('cat')
 
 
 class DetailPageView(DetailView):
@@ -55,10 +45,9 @@ class DetailPageView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailPageView, self).get_context_data(**kwargs)
+        context['language'] =  LanguageDetail.objects.filter(slug=self.kwargs['show_more']).select_related('cat')
         return context
 
-    def get_queryset(self):
-        return LanguageDetail.objects.filter(slug=self.kwargs['show_more']).select_related('cat')
 
 
 class AboutPageView(TemplateView):

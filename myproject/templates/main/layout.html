@@ -12,7 +12,15 @@
 <body>
      <header class="container">
             <span class="logo"><a href="#"> logo </a></span>
+
             <nav>
+                <input name = "query"
+                       type="text"
+                       class="form-control"
+                       hx-get="{% url 'home' %}"
+                       hx-target="#main-content"
+                       hx-swap="innerHTML"
+                       hx-trigger="keyup changed delay:500ms">
                 <ul>
                     <li class="active">Home</li>
                     <li><a href="http://127.0.0.1:5500/about.html#">About us</a></li>
@@ -22,17 +30,20 @@
                 </ul>
             </nav>
         </header>
+
     {% block content %}
     {% endblock %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-<script
-      src="https://unpkg.com/htmx.org@1.9.10"
-      integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
-      crossorigin="anonymous"
-></script>
+
+
+<script src="https://unpkg.com/htmx.org@1.9.10"
+        integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+        crossorigin="anonymous"></script>
+
+
 <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
