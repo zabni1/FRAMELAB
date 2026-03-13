@@ -1,0 +1,9 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if user.photo %}
+        <img src="{{ user.photo.url }}">
+    {% else %}
+        <img src="{{ photo }}">
+    {% endif %}
+    {% form.as_p %}
+</form>

@@ -8,5 +8,6 @@ urlpatterns = [
     path('detail/<slug:show_more>', views.DetailPageView.as_view(), name='detail'),
     path('about', views.AboutPageView.as_view(), name='about'),
     path('response', views.ChatView.as_view(), name='response'),
+    path('test', views.test_view, name='test'),
     path('error', views.error_view, name='error'),
 ]

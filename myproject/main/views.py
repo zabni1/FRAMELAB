@@ -24,7 +24,7 @@ class HomePageView(TemplateView):
 
 
 class CategoryPageView(ListView):
-    template_name = ''
+    template_name = 'main/category.html'
     context_object_name = 'categories'
     allow_empty = False
 
@@ -38,7 +38,7 @@ class CategoryPageView(ListView):
 
 
 class DetailPageView(DetailView):
-    template_name = ''
+    template_name = 'detail.html'
     model = LanguageDetail
     slug_url_kwarg = 'show_more'
     context_object_name = 'detail'
@@ -62,6 +62,11 @@ class ChatView(View):
 
 class UpdateChatView(View):
     pass
+
+def test_view(request):
+    return render(request, 'main/test.html')
+
+
 
 def error_view(request, exception):
     return render(request, 'main/error.html', {'exception': exception})

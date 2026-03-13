@@ -1,0 +1,13 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block title %}Профіль{% endblock %}
+{% block content %}
+
+    {% if user.photo %}
+        <img src="{{ user.photo.url }}">
+    {% else %}
+        <img src="{{ photo }}">
+        {{ user.full_name }}
+    {% endif %}
+
+{% endblock %}

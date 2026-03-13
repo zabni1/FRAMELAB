@@ -38,10 +38,11 @@ class ProfileUserForm(forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('email', 'full_name' , 'password')
+        fields = ('email', 'full_name' , 'password','photo')
         labels = {
             'full_name': "Прізвище та ім'я",
             'password': 'Пароль',
+            'photo': ''
 
 
         }

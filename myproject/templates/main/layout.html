@@ -8,10 +8,11 @@
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
     <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'login/css/login.css' %}">
 </head>
 <body>
      <header class="container">
-            <span class="logo"><a href="#"> logo </a></span>
+            <span class="logo"><a href="{% url 'home' %}"> logo </a></span>
 
             <nav>
                 <input name = "query"
@@ -23,10 +24,14 @@
                        hx-trigger="keyup changed delay:500ms">
                 <ul>
                     <li class="active">Home</li>
-                    <li><a href="http://127.0.0.1:5500/about.html#">About us</a></li>
+                    <li><a href="{% url 'about' %}">About us</a></li>
                     <li><a href="#">Portfolio</a></li>
                     <li><a href="#">Contacts</a></li>
-                    <li class="btn"><a href="#">Registration</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="btn"><a href="{% url 'profile' %}">Профіль</a></li>
+                    {% else %}
+                    <li class="btn"><a href="{% url 'login' %}">Вхід</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </header>
