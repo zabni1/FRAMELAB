@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'login',
+    'topic',
     'debug_toolbar',
 ]
 
@@ -159,3 +160,6 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 AUTH_USER_MODEL = 'login.User'
 
 DEFAULT_USER_IMAGE = MEDIA_URL + 'default.png'
+
+LOGIN_ATTEMPTS_LIMIT = 5
+LOGIN_ATTEMPTS_TIMEOUT = 300

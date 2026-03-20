@@ -5,9 +5,10 @@ from . import views
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
     path('list/<slug:show_cat>', views.CategoryPageView.as_view(), name='category'),
+    path('update/<slug:show_cat>', views.UpdateSavedView.as_view(), name='update_saved'),
     path('detail/<slug:show_more>', views.DetailPageView.as_view(), name='detail'),
     path('about', views.AboutPageView.as_view(), name='about'),
-    path('response', views.ChatView.as_view(), name='response'),
     path('test', views.test_view, name='test'),
+    path('save_test/<slug:show_cat>', views.save_test, name='save_test'),
     path('error', views.error_view, name='error'),
 ]

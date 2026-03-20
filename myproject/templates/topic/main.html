@@ -1,0 +1,14 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block title %}Теми{% endblock %}
+{% block content %]
+<div>
+    {% for p in topics %}
+    <div>
+        <h2>Автор: {{ p.username }}</h2>
+        <h1>{{ p.name }}</h1>
+        <h3>Категорія: {{ p.category }}</h3>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

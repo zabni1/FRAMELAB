@@ -3,16 +3,37 @@
 {% block title %}Головна{% endblock %}
 
 {% block content %}
+<div id="main-content">
+        <div class="content-wrapper">
 
-    <div id="main-content" class="grid-container">
-                <div class="grid-item"><a href="http://127.0.0.1:5500/1.html#">C++</a></div>
-                <div class="grid-item"><a href="http://127.0.0.1:5500/2.html#">C#</a></div>
-                <div class="grid-item"><a href="http://127.0.0.1:5500/3.html#">Python</a></div>
-                <div class="grid-item"><a href="http://127.0.0.1:5500/4.html#">JS</a></div>
-                <div class="grid-item"><a href="http://127.0.0.1:5500/5.html#">Java</a></div>
-                <div class="grid-item"><a href="http://127.0.0.1:5500/6.html#">PHP</a></div>
-                <div class="grid-item"><a href="http://127.0.0.1:5500/7.html#">Ruby</a></div>
-                <div class="grid-item"><a href="http://127.0.0.1:5500/8.html#">Go</a></div>
+            <div class="txt1">
+                <p><b>Що таке LOGO?</b></p>
+                <p>LOGO — це онлайн-платформа для вивчення мов програмування. Сайт створений для тих, хто хоче почати свій шлях у програмуванні або покращити вже наявні знання.</p>
+
+                <p><b>Що ви зможете вивчити на LOGO?</b></p>
+                <p>На платформі ви зможете вивчати різні мови програмування та технології, які використовуються для створення сучасних сайтів і програм.</p>
+
+                <p><b>Чому варто обрати LOGO?</b></p>
+                <p>LOGO допомагає зробити навчання програмуванню простим та доступним. Ви можете навчатися у зручний для себе час.</p>
+            </div>
+
+            <div class="shelves-container">
+                <img src="media/shelves.png" alt="shelves" class="shelves-bg">
+
+                <div class="grid-container">
+                    {% for p in language %}
+                        <a href="{{ p.get_absolute_url }}">
+                        <div class="grid-item">
+                        <img src="{{ a.detail.photo.url }}">
+                        <h3>{{ p.name }}</h3>
+                        </div></a>
+                </div>
     </div>
 
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2023 LOGO. Всі права захищені.</p>
+        </footer>
+    </div>
 {% endblock %}

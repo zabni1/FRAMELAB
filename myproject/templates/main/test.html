@@ -2,6 +2,23 @@
 {% load static %}
 {% block title %}Test{% endblock %}
 {% block content %}
-
-
+<form  hx-get="{% url 'save_test' show_cat %}"
+       hx-target="#test_content"
+       hx-swap="innerHTML">
+     <input class=""
+             name="update_slug"
+             value="Зберегти"
+             >
+    <button type="submit">Зберегти</button>
+</form>
+<form  hx-get="{% url 'save_test' show_cat %}"
+       hx-target="#test_content"
+       hx-swap="innerHTML">
+    <input class=""
+             name="delete_slug"
+             value="Видалити"
+             >
+        <button type="submit">Видалити</button>
+</form>
+<div id="test_content"></div>
 {% endblock %}

@@ -35,13 +35,14 @@ class LanguageDetailCategory(models.Model):
     def __str__(self):
         return f"Назва: {self.name}"
 
+class Saved(models.Model):
+      email = models.EmailField(max_length=100)
+      detail = models.ForeignKey('LanguageDetail', on_delete=models.CASCADE)
 
-# class Chat(models.Model):
-#       user1 = ForeignKey('User', on_delete=models.CASCADE)
-#       user2 = ForeignKey('User', on_delete=models.CASCADE)
+      def __str__(self):
+          return self.email
 
-# class Message(models.Model):
-# #     chat = ForeignKey('', on_delete=models.CASCADE)
-# #     sender = ForeignKey('User', on_delete=models.CASCADE)
-# #     message = models.TextField()
-# #     to = models.ForeignKey('User', on_delete=models.CASCADE)
+      def get_absolute_url(self):
+          return reverse('detail', kwargs={'show_more': self.detail.slug})
+
+

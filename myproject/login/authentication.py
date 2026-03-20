@@ -1,12 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import BaseBackend
-
+from django.db.models import Q
 
 
 class EmailAuth(BaseBackend):
     def authenticate(self, request, email=None,password=None, **kwargs):
        try:
-           user = get_user_model().objects.get(email=email)
+           user = get_user_model().objects.get(Q(email=email) | Q(username=email))
            if user.check_password(password):
                 return user
            else:

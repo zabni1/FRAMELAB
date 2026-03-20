@@ -8,6 +8,8 @@
     {% else %}
         <img src="{{ photo }}">
         {{ user.full_name }}
+        {{ user.username }}
     {% endif %}
-
+        <a href="{% url 'saves' %}">Збережені</a>
+        <a href="{% url 'delete_profile' %}">Видилити профіль</a>
 {% endblock %}
