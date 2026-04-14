@@ -1,0 +1,14 @@
+<div id="saves">
+    <div class="grid-container">
+        {% for a in saved %}
+        <a href="{{ a.get_absolute_url }}">
+            <div class="grid-item">
+                <h3>{{ a.detail.name }}</h3>
+                <button hx-get="{% url 'saves_delete' a.id %}"
+                        hx-target="#saves"
+                        hx-swap="innerHTML">Видалити</button>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>

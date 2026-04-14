@@ -8,13 +8,15 @@
 
 body{
     font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(180deg, #0f0f0f, #5a2d0c, #8a4f0f);
+    /*background: linear-gradient(180deg, #0f0f0f, #5a2d0c, #8a4f0f);*/
+    background: #1C1917;
     width: 100%;
-    height: 1800px;
-    color: #333;
+    height: 200vh;
+    color: #FAFAF9;
     font-weight: 400;
-    color: #fff;
-    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+
 
 }
 
@@ -22,15 +24,14 @@ a {
     text-decoration: none;
 }
 
-img {
-    max-width: 100%;
-}
-
-
 
 .container {
     width: 1000px;
     margin: 0 auto;
+}
+
+p, h1, h2, h3, a {
+    color: #FAFAF9;
 }
 
 header {
@@ -38,15 +39,17 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+
 }
 
 header .logo {
     text-transform: uppercase;
-    font-size: 60px;
+    font-size: 43px;
     font-weight: 700;
     position: relative;
-    right: 200px;
-    bottom: 15px;
+    right: 218px;
+    bottom: 5px;
 }
 
 header nav {
@@ -69,10 +72,14 @@ header nav ul {
 
 header nav ul li {
     display: inline-block;
+    left: 50px;
+    position: relative;
 }
 header nav ul li a {
     color: #fff;
     transition: all 150ms ease;
+    white-space: nowrap;
+
 
 }
 
@@ -81,7 +88,7 @@ header nav ul li.active::after {
     display: block;
     width: 40px;
     height: 5px;
-    background: #6c6518;
+    background: #323231;
     border-radius: 15px;
 }
 
@@ -89,24 +96,37 @@ header nav ul li a:hover {
     color: #5f605b;
 }
 
-header nav ul li:not(.active):not(.btn) a:hover {
-    border-bottom: 5px solid #6c6518;
+header nav ul li :not(.active):not(.btn) a:hover {
+    border-bottom: 5px solid #323231;
     border-radius: 5px;
 }
 
-header nav ul li.btn a  {
-    background: #5f0404;
+header nav ul li img {
+    width: 38px;
+}
+
+.prof .btn a {
+    background: #44403C;
     color: #fff;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: all 500ms ease;
-    position: relative;
-    margin: -30px;
+    margin: 0px;
 
+
+}
+
+.prof{
+    position: relative;
+    left: 100px;
+    display: flex;
+    align-items: center;
+    margin-left: -90px;
 }
 
 header nav ul li.btn a:hover {
-    background: #db7822;
+    background: #2a2828;
+    box-shadow: 0 6px 12px black;
 }
 
 .form-control {

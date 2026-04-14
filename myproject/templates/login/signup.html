@@ -3,9 +3,9 @@
 {% block title %}Вхід{% endblock %}
 {% block content %}
 
-<div class="form-container">
+<div class="form-container2">
     <div class="form-wrapper">
-      <form class="form register-form" novalidate>
+      <form class="register-form">
         <h2>Реєстрація</h2>
           {% csrf_token %}
            {{ form.as_p }}

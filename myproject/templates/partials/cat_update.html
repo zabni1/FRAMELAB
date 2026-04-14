@@ -1,2 +1,7 @@
-<h1>{{ update_slug }}</h1>
-<h2>{{ cat }}</h2>
+<input type="text"
+       name="reply"
+       class="reply-input"
+       placeholder="Введіть відповідь"
+       hx-get="{% url 'save_test' key %}"
+       hx-target="#test_content"
+       hx-swap="innerHTML">

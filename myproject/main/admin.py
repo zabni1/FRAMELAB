@@ -1,26 +1,8 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Language, LanguageDetail, LanguageDetailCategory
+from .models import Language, Technology, TechnologyDetail
 
 
-
-@admin.register(LanguageDetail)
-class LanguageDetailAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'photo', 'slug', 'lang', 'cat')
-    prepopulated_fields = {'slug': ('name',)}
-    list_display_links = ('id', 'name',)
-    search_fields = ('id', 'name',)
-    list_filter = ('cat',)
-    list_per_page = 10
-    ordering = ('id', 'lang', 'cat')
-    list_editable = ('description',)
-
-
-    @admin.display(description='upload photo')
-    def upload_photo(self, LanguageDetail):
-        if LanguageDetail.photo:
-            return mark_safe(f'<img src="{LanguageDetail.photo.url}" width=40 height=40>')
-        return 'Нема'
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
@@ -34,11 +16,30 @@ class LanguageAdmin(admin.ModelAdmin):
             return mark_safe(f'<img src="{Language.photo.url}" width=40 height=40>')
         return 'Нема'
 
-@admin.register(LanguageDetailCategory)
-class LanguageDetailCategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'slug')
+@admin.register(Technology)
+class TechnologyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'description', 'slug', 'category', 'lang', 'file')
     prepopulated_fields = {'slug': ('name',)}
+    list_display_links = ('id', 'name',)
     search_fields = ('id', 'name',)
+    list_per_page = 10
+    ordering = ('id', 'lang')
+    list_editable = ('description',)
+
+
+
+@admin.register(TechnologyDetail)
+class TechnologyDetailyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'topic', 'photo', 'description', 'tech')
+    search_fields = ('id', 'name',)
+    list_filter = ('tech',)
+    list_per_page = 10
+
+    @admin.display(description='upload photo')
+    def upload_photo(self, TechnologyDetail):
+        if TechnologyDetail.photo:
+            return mark_safe(f'<img src="{TechnologyDetail.photo.url}" width=40 height=40>')
+        return 'Нема'
 
 
 

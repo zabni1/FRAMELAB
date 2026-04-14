@@ -9,10 +9,14 @@
     <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
     <link rel="stylesheet" href="{% static 'main/css/index.css' %}">
     <link rel="stylesheet" href="{% static 'login/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/category.css' %}">
+    <link rel="stylesheet" href="{% static 'chat/css/chat.css' %}">
 </head>
 <body>
-     <header class="container">
-            <span class="logo"><a href="{% url 'home' %}"> logo </a></span>
+    <div id='layout'
+         class="">
+        <header class="container">
+            <span class="logo"><a href="{% url 'home' %}"> FrameLab </a></span>
 
             <nav>
                 <input name = "query"
@@ -23,19 +27,28 @@
                        hx-swap="innerHTML"
                        hx-trigger="keyup changed delay:500ms">
                 <ul>
-                    <li class="active">Home</li>
-                    <li><a href="{% url 'about' %}">About us</a></li>
-                    <li><a href="#">Portfolio</a></li>
-                    <li><a href="#">Contacts</a></li>
+                    <li class="active">Головна</li>
+                    <li><a href="#bottom">Про нас</a></li>
+                    <li><a href="{% url 'topic' %}">Теми</a></li>
+                    <li><a href="{% url 'chat' %}">Чат</a></li>
+                    <li><a hx-get="{% url 'translate' %}"
+                           hx-target="#layout"
+                           hx-swap="innerHTML"><img src="{% static 'main/img/chinese.png' %}" alt="User"></a></li>
                     {% if user.is_authenticated %}
-                    <li class="btn"><a href="{% url 'profile' %}">Профіль</a></li>
-                    {% else %}
-                    <li class="btn"><a href="{% url 'login' %}">Вхід</a></li>
+                    <div class="prof">
+                        <li class="btn"><a href="{% url 'profile' request.user.username %}">Профіль</a></li>
+                    </div>
+                        {% else %}
+                    <div class="prof">
+                        <li class="btn"><a href="{% url 'login' %}">Вхід</a></li>
+                        <li class="btn"><a href="{% url 'signup' %}">Реєстрація</a></li>
+                    </div>
                     {% endif %}
                 </ul>
             </nav>
         </header>
 
+    </div>
     {% block content %}
     {% endblock %}
 
@@ -49,6 +62,13 @@
         crossorigin="anonymous"></script>
 
 
-<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'main/js/main.js' %}"></script>
+
+<script>
+    {% block script %}
+    {% endblock %}
+</script>
+
+
 </body>
 </html>

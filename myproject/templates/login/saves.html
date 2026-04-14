@@ -2,18 +2,11 @@
 {% load static %}
 {% block title %}Збережені{% endblock %}
 {% block content %}
-<div id="saves">
-    <div class="grid-container">
-        {% for a in saved %}
-        <a href="{{ a.get_absolute_url }}">
-            <div class="grid-item">
-                <h3>{{ a.detail.name }}</h3>
-                <button hx-get="{% url 'saves_delete' a.id %}"
-                        hx-target="#saves"
-                        hx-swap="innerHTML">Видалити</button>
-            </div>
-        </a>
-        {% endfor %}
-    </div>
-</div>
+<div id="saves-content"></div>
+<div id="loader" class="htmx-indicator">Завантаження...</div>
+<div hx-get="{% url 'saves_update' page %}"
+     hx-target="#saves-content"
+     hx-indicator="#loader"
+     hx-swap="beforeend"
+     hx-trigger="revealed"></div>
 {% endblock %}

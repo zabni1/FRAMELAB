@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'main',
     'login',
     'topic',
+    'chat',
     'debug_toolbar',
 ]
 

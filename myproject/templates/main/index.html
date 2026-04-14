@@ -3,7 +3,8 @@
 {% block title %}Головна{% endblock %}
 
 {% block content %}
-<div id="main-content">
+<div id="main-content"
+     hx-swap-oob="true">
         <div class="content-wrapper">
 
             <div class="txt1">
@@ -17,24 +18,50 @@
                 <p>LOGO допомагає зробити навчання програмуванню простим та доступним. Ви можете навчатися у зручний для себе час.</p>
             </div>
 
-            <div class="shelves-container">
-                <img src="media/shelves.png" alt="shelves" class="shelves-bg">
+            <!-- <div class="shelves-container"> -->
+                <!-- <img src="media/shelves.png" alt="shelves" class="shelves-bg"> -->
 
                 <div class="grid-container">
-                    {% for p in language %}
-                        <a href="{{ p.get_absolute_url }}">
-                        <div class="grid-item">
-                        <img src="{{ a.detail.photo.url }}">
-                        <h3>{{ p.name }}</h3>
-                        </div></a>
-                    {% endfor %}
-                </div>
-    </div>
+                    <div class="grid-item"><a href="#">C++</a></div>
+                    <div class="grid-item"><a href="#">C#</a></div>
+                    <div class="grid-item"><a href="#">Python</a></div>
 
+                    <div class="grid-item"><a href="#">JS</a></div>
+                    <div class="grid-item"><a href="#">Java</a></div>
+                    <div class="grid-item"><a href="#">PHP</a></div>
+
+                    <div class="grid-item"><a href="#">Ruby</a></div>
+                    <div class="grid-item"><a href="#">Go</a></div>
+                    <div class="grid-item"><a href="#">Rust</a></div>
+                </div>
+            <!-- </div> -->
         </div>
 
         <footer class="footer">
-            <p>&copy; 2023 LOGO. Всі права захищені.</p>
+            <div class="footer-container">
+                <div>
+                    <span class="logo-foot"><a>LOGO</a></span>
+                    <p><b>LOGO</b>-це онлайн-платформа <br> для вивчення мов програмування</p>
+                </div>
+
+                <div>
+                    <h4>Навігація</h4>
+                    <ul>
+                        <li><a href="#">Головна</a></li>
+                        <li><a href="#">Про нас</a></li>
+                        <li><a href="#">Контакти</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Social Media</h4>
+                    <ul>
+                        <li><a href="#">Telegram</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr><p class="copyright">© 2026 LOGO. Всі права захищєні.</p>
         </footer>
-    </div>
+</div>
 {% endblock %}

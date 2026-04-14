@@ -1,0 +1,27 @@
+
+    {% for a in messages %}
+        {% if a.user1 == request.user.pk %}
+        <h3 class="user_messages">{{ a.message }}</h3>
+        {% else %}
+        <h3 class="replies">{{ a.message }}</h3>
+        {% endif %}
+    {% endfor %}
+
+    <form hx-post="{% url 'add_message'  %}"
+          hx-target="#chat"
+          hx-swap="innerHTML">
+          {% csrf_token %}
+          <input name="message"
+                 type="text"
+                 id="chat_input">
+
+        <button id="chat_button" type="submit">Відправити</button>
+    </form>
+<script>
+        button=document.querySelector("#chat_button")
+        input=document.querySelector("#chat_input")
+        input.oninput=function(){
+            if(this.value==="") return button.style.display="none"
+            button.style.display="inline-block"
+        }
+</script>

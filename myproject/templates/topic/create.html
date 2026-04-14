@@ -1,0 +1,12 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block title %}Створити тему{% endblock %}
+{% block content %}
+<form method="POST">
+    <div class="create_topic">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Створити</button>
+    </div>
+</form>
+{% endblock %}

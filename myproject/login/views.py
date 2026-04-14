@@ -1,8 +1,7 @@
 from django.conf import settings
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, resolve_url
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, FormView
@@ -36,16 +35,24 @@ def signup(request):
             return redirect('home')
     return render(request, 'login/signup.html',{'form': form})
 
-def logout(request):
+def user_logout(request):
     logout(request)
     return redirect('home')
 
 @login_required(login_url='login')
-def profile(request):
-    # model = User.objects.get(full_name=request.user.full_name)
+def profile(request, username):
     photo = settings.DEFAULT_USER_IMAGE
-    saved = Saved.objects.filter(email=request.user.email)
-    return render(request, 'login/profile.html', {'model': '', 'photo': photo, 'saved': saved})
+    page = 0
+    if request.user.username == username:
+        user = get_user_model().objects.get(username=username)
+        saved = Saved.objects.filter(email=request.user.email)
+        return render(request, 'login/user_profile.html', {'user': user, 'saved': saved,
+                                                                                'page': page,'photo': photo})
+    else:
+        user = get_user_model().objects.get(username=username)
+        saved = Saved.objects.filter(email=user.email)
+    return render(request, 'login/profile.html', {'user': user, 'saved': saved,
+                                                                       'page': page, 'photo': photo})
 
 
 @login_required(login_url='login')
@@ -56,20 +63,63 @@ def update_profile(request):
 
 @login_required(login_url='login')
 def delete_profile(request):
-    user = User.objects.get(id=request.user.id)
+    user = get_user_model().objects.get(id=request.user.id)
     user.delete()
     return redirect('home')
 
 
 @login_required(login_url='login')
-def saves(request):
-    page = 9
-    saved = Saved.objects.filter(email=request.user.email).select_related('detail')
-    return render(request, 'login/saves.html', {'saved': saved})
+def topic_update(request, page):
+    if request.headers.get('HX-Request'):
+        topics_qs = Topic.objects.filter(
+            email=request.user.email
+        ).select_related('detail')
+        topics = topics_qs[page:page + 9]
+
+        if page + 9 >= topics_qs.count():
+            return render(request, 'partials/saves_update_last.html', {
+                'topics': topics
+            })
+        else:
+            return render(request, 'partials/saves_update.html', {
+                'topics': topics,
+                'page': page + 9
+            })
+    return redirect('login')
 
 @login_required(login_url='login')
-def saves_update(request):
-    return None
+def topic_delete(request, topic_id):
+    if request.headers.get('HX-Request'):
+        delete = Saved.objects.get(id=topic_id)
+        delete.delete()
+        topics = Topic.objects.filter(email=request.user.email)
+        return render(request, 'login/topics.html', {'topics': topics})
+    return redirect('login')
+
+@login_required(login_url='login')
+def saves(request):
+    page = 0
+    return render(request, 'login/saves.html', {'page': page})
+
+@login_required(login_url='login')
+def saves_update(request, page):
+    if request.headers.get('HX-Request'):
+        saved_qs = Saved.objects.filter(
+            email=request.user.email
+        ).select_related('detail')
+        saved = saved_qs[page:page + 9]
+
+        if page + 9 >= saved_qs.count():
+            return render(request, 'partials/saves_update_last.html', {
+                'saved': saved
+            })
+        else:
+            return render(request, 'partials/saves_update.html', {
+                'saved': saved,
+                'page': page + 9
+            })
+    return redirect('login')
+
 
 @login_required(login_url='login')
 def saves_delete(request, get_id):
@@ -80,23 +130,7 @@ def saves_delete(request, get_id):
         return render(request, 'partials/saves_delete.html', {'saved': saved})
     return redirect('login')
 
-@login_required(login_url='login')
-def topic_users(request):
-    topic = Topic.objects.filter(email=request.user.email)
-    return render(request, 'login/topics.html', {'topic': topic})
 
-@login_required(login_url='login')
-def topic_update(request):
-    return None
-
-@login_required(login_url='login')
-def topic_delete(request, topic_id):
-    if request.headers.get('HX-Request'):
-        delete = Saved.objects.get(id=topic_id)
-        delete.delete()
-        topic = Topic.objects.filter(email=request.user.email)
-        return render(request, 'login/topics.html', {'topic': topic})
-    return redirect('login')
 
 
 

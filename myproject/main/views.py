@@ -4,7 +4,9 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, FormView, UpdateView
-from .models import Language, LanguageDetail, LanguageDetailCategory, Saved
+from .models import Language, Technology, TechnologyDetail, Saved
+from .forms import LanguageForm
+from .utils import DataMixin
 
 
 class HomePageView(TemplateView):
@@ -20,7 +22,7 @@ class HomePageView(TemplateView):
         if request.headers.get('HX-Request'):
             query = request.GET.get('query')
             if query:
-                language = LanguageDetail.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))[:9]
+                language = Technology.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))[:9]
                 return render(request, 'partials/search.html', {'language': language})
             else:
                 language = context['languages']
@@ -38,46 +40,53 @@ class CategoryPageView(ListView):
         context['lang'] = Language.objects.get(slug=self.kwargs['show_cat'])
         context['show_cat'] = self.kwargs['show_cat']
         if self.request.user.is_authenticated:
-                saved = Saved.objects.filter(email=self.request.user.email).values_list("detail_id", flat=True)
-                if saved:
-                    context['saved'] = saved
-                    return context
+            saved = Saved.objects.filter(email=self.request.user.email).values_list("detail_id", flat=True)
+            if saved:
+                context['saved'] = saved
+                return context
         return context
 
     def get_queryset(self):
-        return LanguageDetail.objects.filter(lang__slug=self.kwargs['show_cat']).select_related('cat')
+        return Technology.objects.filter(lang__slug=self.kwargs['show_cat'])
 
 
-class UpdateSavedView(View):
+class UpdateSavedView(DataMixin, View):
     def get(self, request, show_cat):
         if request.headers.get('HX-Request'):
             update_slug = request.GET.get('update_slug')
             delete_slug = request.GET.get('delete_slug')
             if update_slug:
                 Saved.objects.create(email=request.user.username,
-                                    detail=LanguageDetail.objects.get(slug=update_slug))
-                saved = Saved.objects.filter(email=request.user.email).values_list("detail_id", flat=True)
-                categories = LanguageDetail.objects.filter(lang__slug=show_cat).select_related('cat')
-                context = {'categories': categories, 'saved': saved}
+                                    detail=Technology.objects.get(slug=update_slug))
+                context = self.get_saves_data(request.user.email, show_cat)
                 return render(request, 'partials/category_update.html', context)
             elif delete_slug:
                 get = Saved.objects.get(email=request.user.username,
-                                             detail=LanguageDetail.objects.get(slug=delete_slug))
+                                        detail=Technology.objects.get(slug=delete_slug))
                 get.delete()
-                saved = Saved.objects.filter(email=request.user.email).values_list("detail_id", flat=True)
-                categories = LanguageDetail.objects.filter(lang__slug=show_cat).select_related('cat')
-                context = {'categories': categories, 'saved': saved}
+                context = self.get_saves_data(request.user.email, show_cat)
                 return render(request, 'partials/category_delete.html', context)
         return reverse('category_page',  kwargs={'show_cat': show_cat})
+
+
+class TranslatePageView(View):
+    def get(self, request):
+        if request.headers.get('HX-Request'):
+            return render(request, 'partials/translate.html')
+        return redirect('home')
 
 
 
 class DetailPageView(DetailView):
     template_name = 'detail.html'
-    model = LanguageDetail
+    model = Technology
     slug_url_kwarg = 'show_more'
-    context_object_name = 'detail'
+    context_object_name = 'technology'
 
+    def get_context_data(self, **kwargs):
+        context = super(DetailPageView, self).get_context_data(**kwargs)
+        context['detail'] = TechnologyDetail.objects.filter(tech_id=self.object.pk)
+        return context
 
 class AboutPageView(TemplateView):
     template_name = ''
@@ -88,19 +97,13 @@ class AboutPageView(TemplateView):
 
 
 def test_view(request):
-    test = 'test'
-    return render(request, 'main/test.html',{'show_cat': test})
+    form = LanguageForm()
+    return render(request, 'main/test.html', {'form': form})
 
-def save_test(request, show_cat):
+def save_test(request, key):
     if request.headers.get('HX-Request'):
-        update_slug = request.GET.get('update_slug')
-        delete_slug = request.GET.get('delete_slug')
-        if update_slug:
-            return render(request, 'partials/cat_update.html',{'update_slug': update_slug, 'cat': show_cat})
-
-        elif delete_slug:
-            return render(request, 'partials/cat_delete.html', {'delete_slug': delete_slug, 'cat': show_cat})
-    return reverse('category', kwargs=show_cat)
+            return render(request, 'partials/cat_delete.html', {'key': key})
+    return reverse('home')
 
 
 def error_view(request, exception):

@@ -1,0 +1,10 @@
+<div>
+    {% for p in topics %}
+    <a href="{{ p.get_absolute_url }}">
+    <div>
+        <h2>Автор: {{ p.username }}</h2>
+        <h1>{{ p.name }}</h1>
+        <h3>Категорія: {{ p.category }}</h3>
+    </div></a>
+    {% endfor %}
+</div>

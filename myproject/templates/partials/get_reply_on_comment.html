@@ -1,0 +1,7 @@
+<input type="text"
+       name="reply"
+       class="reply-input"
+       placeholder="Введіть відповідь"
+       hx-get="{% url 'create_reply' pk %}"
+       hx-target="#reply-{{ pk }}"
+       hx-swap="innerHTML">

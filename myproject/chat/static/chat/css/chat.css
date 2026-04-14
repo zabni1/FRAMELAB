@@ -1,0 +1,35 @@
+.chat form{
+    position: fixed;
+    top: 90%;
+    left: 30%;
+
+}
+
+.chat input{
+    width: 560px;
+    height: 50px;
+    border-radius: 18px;
+
+}
+
+.chat button{
+    display: none;
+
+}
+.user_messages{
+    position: relative;
+    left: 55%;
+    background-color: grey;
+    justify-content: right;
+    padding: 1em 0px 10px 5px;
+    border-radius: 18px;
+}
+
+.replies{
+    position: relative;
+    left: 35%;
+    background-color: grey;
+    justify-content: left;
+    padding: 1em 0px 10px 5px;
+    border-radius: 18px;
+}

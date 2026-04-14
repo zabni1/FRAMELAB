@@ -1,6 +1,6 @@
 {% extends 'main/layout.html' %}
 {% load static %}
-{% block title %}Профіль{% endblock %}
+{% block title %}Профіль: {{ user.username }}{% endblock %}
 {% block content %}
 
     {% if user.photo %}
@@ -11,5 +11,15 @@
         {{ user.username }}
     {% endif %}
         <a href="{% url 'saves' %}">Збережені</a>
-        <a href="{% url 'delete_profile' %}">Видилити профіль</a>
+        <a href="{% url 'delete_profile' %}">Видалити профіль</a>
+
+    {% if saved %}
+    <div id="topics-user"></div>
+    <div id="loader" class="htmx-indicator">Завантаження...</div>
+    <div hx-get="{% url 'topic_update' page %}"
+         hx-target="#topics-user"
+         hx-indicator="#loader"
+         hx-swap="beforeend"
+         hx-trigger="revealed"></div>
+    {% endif %}
 {% endblock %}

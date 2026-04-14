@@ -1,13 +1,64 @@
 {% extends 'main/layout.html' %}
 {% load static %}
-{% block title %}Теми{% endblock %}
+{% block title %}Тема: {{ topic.username }}{% endblock %}
 {% block content %]
 
 <div>
-        <h2>Автор: {{ p.username }}</h2>
-        <h1>{{ p.name }}</h1>
-        <h3>Категорія: {{ p.category }}</h3>
-        <h1>{{ p.about }}</h1>
+        <h2>Автор: {{ topic.username }}</h2>
+        <h1>{{ topic.name }}</h1>
+        <h3>Категорія: {{ topic.category }}</h3>
+        <h1>{{ topic.about }}</h1>
 </div>
+{% if user.is_authenticated %}
+    <input type="text"
+           name="comment"
+           class="comments-input"
+           placeholder="Введіть коментар"
+           hx-get="{% url 'topic_detail' show_detail %}"
+           hx-target="#comments"
+           hx-swap="innerHTML">
+{% else %}
+    <input class="comments-input"
+           value="Ввійдіть на акаунт"
+           readonly>
+{% endif %}
 
+<div id="comments">
+    {% if comment %}
+        {% for m in comment %}
+            <a href="{% url 'profile' m.username %}">{{ m.username }}</a>
+            <h2>{{ m.comment }}</h2>
+            {% if m.id in likes_com %}
+                <button>Прибрати лайк {{ m.likes }}</button>
+            {% else %}
+                <button>Вподобати {{ m.likes }}</button>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <button hx-get="{% url 'get_input_for_reply' m.pk %}"
+                    hx-target="#reply-comment-{{ m.pk }}"
+                    hx-swap="innerHTML">Відповісти</button>
+            <div id="reply-comment-{{ m.pk }}"></div>
+            {% else %}
+            <form action="{% url 'login' %}">
+                <button class="" type="submit">Відповісти</button>
+            </form>
+            {% endif %}
+            {% if m.pk in comment_user %}
+                <button hx-get="{% url 'delete_comments' m.pk %}"
+                        hx-target="#comments"
+                        hx-swap="innerHTML">Видалити</button>
+            {% endif %}
+            {% if m.replies > 0 %}
+                <div id="reply-{{ m.pk }}">
+                <button hx-get="{% url 'get_replies' %}"
+                        hx-target="#reply-{{ m.pk }}"
+                        hx-swap="innerHTML">Відкрити відповіді: {{ m.replies }}</button>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    {% else %}
+            <h3>Відповідей поки немає</h3>
+    {% endif %}
+</div>
 {% endblock %}

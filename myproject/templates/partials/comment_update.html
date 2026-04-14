@@ -1,0 +1,36 @@
+{% if comment %}
+        {% for m in comment %}
+            <h3>{{ m.username }}</h3>
+            <h2>{{ m.comment }}</h2>
+            {% if m.id in likes_com %}
+                <button>Прибрати лайк {{ m.likes }}</button>
+            {% else %}
+                <button>Вподобати {{ m.likes }}</button>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <button hx-get="{% url 'get_input_for_reply' m.pk %}"
+                    hx-target="#reply-comment-{{ m.pk }}"
+                    hx-swap="innerHTML">Відповісти</button>
+            <div id="reply-comment-{{ m.pk }}"></div>
+            {% else %}
+            <form action="{% url 'login' %}">
+                <button class="" type="submit">Відповісти</button>
+            </form>
+            {% endif %}
+            {% if m.pk in comment_user %}
+                <button hx-get="{% url 'delete_comments' m.pk %}"
+                        hx-target="#comments"
+                        hx-swap="innerHTML">Видалити</button>
+            {% endif %}
+            {% if m.replies > 0 %}
+                <div id="reply-{{ m.pk }}">
+                <button hx-get="{% url 'get_replies' %}"
+                        hx-target="#reply"
+                        hx-swap="innerHTML">Відкрити відповіді: {{ m.replies }}</button>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+{% else %}
+        <h3>Відповідей поки немає</h3>
+{% endif %}

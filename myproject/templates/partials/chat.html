@@ -1,0 +1,13 @@
+
+{% for a in message %}
+    {{ a.message }}
+{% endfor %}
+    <form hx-post="{% url 'add_message' %}"
+          hx-target="#chat"
+          hx-swap="innerHTML">
+          {% csrf_token %}
+          <input name="message"
+                   type="text">
+
+        <button type="submit">Відправити</button>
+    </form>

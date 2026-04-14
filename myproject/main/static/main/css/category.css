@@ -1,0 +1,94 @@
+#content {
+    padding: 40px;
+    display: flex;
+    flex-direction: column; /* Змушує блоки йти зверху вниз */
+    gap: 50px; /* Відступ між секціями */
+    place-items: center; /* Центрує вміст по горизонталі */
+}
+
+#content h1 {
+    margin-bottom: 20px;
+    font-size: 32px;
+    text-align: center;
+}
+
+.grid-frameworks,
+.grid-libraries {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 1000px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.grid-frame {
+    background: #1e1e1e;
+    border-radius: 15px;
+    border: 1px solid #000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+    min-height: 80px;
+    justify-content: center;
+    text-align: left;
+    padding-bottom: 30px;
+}
+
+.grid-frame:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.grid-frame a {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-start;   /* центр по вертикалі */
+    justify-content: flex-start; /* текст зліва */
+    padding: 20px;
+    flex-direction: column; /* розташування тексту зверху вниз */
+
+}
+
+.grid-frame a h2,
+.grid-frame a h3 {
+    margin: 0;
+    align-items: center;
+    display: flex;
+}
+
+/* Текст всередині */
+.grid-frame h2 {
+    font-size: 22px;
+}
+
+.grid-frame h3 {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.grid-frame button {
+    position: relative;
+    background: #1e1e1e;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: auto;
+    bottom: 55px;
+    padding: 0;
+    border: none;
+    background: none;
+    line-height: 0;
+    left: 28px;
+}
+
+.grid-frame button:hover {
+    box-shadow: none;
+}
+
+.grid-frame button img {
+    width: 70px;
+    height: 50px;
+}

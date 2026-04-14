@@ -1,0 +1,25 @@
+<div id="topics">
+    <div>
+        {% for a in saved %}
+        <a href="{{ a.get_absolute_url }}">
+            <div>
+                <img src="{{ a.detail.photo.url }}">
+                <h3>{{ a.detail.name }}</h3>
+                <button hx-get="{% url 'topic_update' a.id %}"
+                        hx-target="#topics"
+                        hx-swap="innerHTML">Редагувати</button>
+                <button hx-get="{% url 'topic_delete' a.id %}"
+                        hx-target="#topics"
+                        hx-swap="innerHTML">Видалити</button>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<div id="topics-user"></div>
+<div id="loader" class="htmx-indicator">Завантаження...</div>
+<div hx-get="{% url 'topic_update' page %}"
+     hx-target="#topics-user"
+     hx-indicator="#loader"
+     hx-swap="beforeend"
+     hx-trigger="revealed"></div>
