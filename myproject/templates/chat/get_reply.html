@@ -1,11 +1,13 @@
 
-    {% for a in messages %}
-        {% if a.user1 == request.user.pk %}
-        <h3 class="user_messages">{{ a.message }}</h3>
-        {% else %}
-        <h3 class="replies">{{ a.message }}</h3>
-        {% endif %}
-    {% endfor %}
+    <div class="messages">
+            {% for a in messages %}
+                {% if a.user1 == request.user.pk %}
+                <h5 class="message user_message">{{ a.message }}</h5>
+                {% else %}
+                <h5 class="message">{{ a.message }}</h5>
+                {% endif %}
+            {% endfor %}
+    </div>
 
     <form hx-post="{% url 'add_message'  %}"
           hx-target="#chat"

@@ -16,20 +16,27 @@
     display: none;
 
 }
-.user_messages{
-    position: relative;
-    left: 55%;
-    background-color: grey;
-    justify-content: right;
-    padding: 1em 0px 10px 5px;
-    border-radius: 18px;
-}
 
-.replies{
+.messages{
+    flex: 1;
+    padding: 20px 70px;
     position: relative;
     left: 35%;
+
+}
+.message{
     background-color: grey;
-    justify-content: left;
-    padding: 1em 0px 10px 5px;
-    border-radius: 18px;
+    padding: 10px;
+    color: white;
+    width: fit-content;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    max-width: 50%;
+}
+
+.user_message{
+    margin-left: auto;
+    background-color: grey;
+    color: white;
+
 }
