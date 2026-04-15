@@ -1,0 +1,8 @@
+.topic a{
+    position: fixed;
+    top: 80%;
+    right: 7%;
+    padding: 10px;
+    background: grey;
+    border-radius: 15px;
+}

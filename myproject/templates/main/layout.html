@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'login/css/login.css' %}">
     <link rel="stylesheet" href="{% static 'main/css/category.css' %}">
     <link rel="stylesheet" href="{% static 'chat/css/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'topic/css/topics.css' %}">
 </head>
 <body>
     <div id='layout'
@@ -29,7 +30,7 @@
                        hx-trigger="keyup changed delay:500ms">
                 <ul>
                     <li class="active"><a href="{% url 'home' %}">Головна</a></li>
-                    <li><a href="#bottom">Про нас</a></li>
+                    <li><a href="#footer">Про нас</a></li>
                     <li><a href="{% url 'topic' %}">Теми</a></li>
                     <li><a href="{% url 'chat' %}">Чат</a></li>
                     <li><a hx-get="{% url 'translate' %}"
