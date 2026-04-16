@@ -27,6 +27,12 @@
 
         <button id="chat_button" type="submit">Відправити</button>
     </form>
+    {% if messages.count > 0 %}
+    <button class="clear_chat"
+            hx-get="{% url 'clear_chat' %}"
+            hx-target="#chat"
+            hx-swap="innerHTML">Очистити чат</button>
+    {% endif %}
 </div>
 
 

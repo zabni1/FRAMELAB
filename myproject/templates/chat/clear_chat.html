@@ -1,15 +1,6 @@
+ <h1>Вітаємо, це наша ШІ підтримка, напишіть ваш перший запит!</h1>
 
-    <div class="messages">
-            {% for a in messages %}
-                {% if a.user1 == request.user.pk %}
-                <h5 class="message user_message">{{ a.message }}</h5>
-                {% else %}
-                <h5 class="message">{{ a.message }}</h5>
-                {% endif %}
-            {% endfor %}
-    </div>
-
-    <form hx-post="{% url 'add_message'  %}"
+ <form hx-post="{% url 'add_message'  %}"
           hx-target="#chat"
           hx-swap="innerHTML">
           {% csrf_token %}
@@ -20,15 +11,13 @@
 
         <button id="chat_button" type="submit">Відправити</button>
     </form>
-    <button class="clear_chat"
-            hx-get="{% url 'clear_chat' %}"
-            hx-target="#chat"
-            hx-swap="innerHTML">Очистити чат</button>
-<script>
+
+
+    <script>
         button=document.querySelector("#chat_button")
         input=document.querySelector("#chat_input")
         input.oninput=function(){
             if(this.value==="") return button.style.display="none"
             button.style.display="inline-block"
         }
-</script>
+    </script>

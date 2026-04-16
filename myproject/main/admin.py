@@ -9,6 +9,7 @@ class LanguageAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'photo', 'slug')
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('id', 'name',)
+    list_editable = ('name', 'photo')
 
     @admin.display(description='upload photo')
     def upload_photo(self, Language):

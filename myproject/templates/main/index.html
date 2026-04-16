@@ -19,19 +19,12 @@
             </div>
 
                 <div class="grid-container">
-                    <div class="grid-item"><a href="#">C++</a></div>
-                    <div class="grid-item"><a href="#">C#</a></div>
-                    <div class="grid-item"><a href="#">Python</a></div>
-
-                    <div class="grid-item"><a href="#">JS</a></div>
-                    <div class="grid-item"><a href="#">Java</a></div>
-                    <div class="grid-item"><a href="#">PHP</a></div>
-
-                    <div class="grid-item"><a href="#">Ruby</a></div>
-                    <div class="grid-item"><a href="#">Go</a></div>
-                    <div class="grid-item"><a href="#">Rust</a></div>
+                    {% for a in languages %}
+                    <div class="grid-item">
+                        <a href="{{ a.get_absolute_url }}">{{ a.name }}</a>
+                    </div>
+                    {% endfor %}
                 </div>
-            <!-- </div> -->
         </div>
 
         <footer class="footer" id="footer">
@@ -44,7 +37,7 @@
                 <div>
                     <h4>Навігація</h4>
                     <ul>
-                        <li><a href="#">Головна</a></li>
+                        <li><a href="{% url 'home' %}">Головна</a></li>
                         <li><a href="#">Про нас</a></li>
                         <li><a href="#">Контакти</a></li>
                     </ul>

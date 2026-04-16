@@ -12,9 +12,19 @@
 
 }
 
-.chat button{
+#chat_button{
     display: none;
 
+}
+
+.clear_chat{
+    position: fixed;
+    top: 80%;
+    right: 7%;
+    padding: 10px;
+    background: grey;
+    border-radius: 15px;
+    background: white;
 }
 
 .messages{
@@ -24,6 +34,7 @@
     left: 35%;
 
 }
+
 .message{
     background-color: grey;
     padding: 10px;

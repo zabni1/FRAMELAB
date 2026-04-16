@@ -16,21 +16,15 @@
 
 
                 <div class="grid-container">
-                    <div class="grid-item"><a href="#">C++</a></div>
-                    <div class="grid-item"><a href="#">C#</a></div>
-                    <div class="grid-item"><a href="#">Python</a></div>
-
-                    <div class="grid-item"><a href="#">JS</a></div>
-                    <div class="grid-item"><a href="#">Java</a></div>
-                    <div class="grid-item"><a href="#">PHP</a></div>
-
-                    <div class="grid-item"><a href="#">Ruby</a></div>
-                    <div class="grid-item"><a href="#">Go</a></div>
-                    <div class="grid-item"><a href="#">Rust</a></div>
+                    {% for a in languages %}
+                    <div class="grid-item">
+                        <a href="{{ a.get_absolute_url }}">{{ a.name }}</a>
+                    </div>
+                    {% endfor %}
                 </div>
         </div>
 
-        <footer class="footer">
+        <footer id="footer" class="footer">
             <div class="footer-container">
                 <div>
                     <span class="logo-foot"><a>FRAMELAB</a></span>
@@ -40,7 +34,7 @@
                 <div>
                     <h4>导航</h4>
                     <ul>
-                        <li><a href="#">首页</a></li>
+                        <li><a href="{% url 'home' %}">首页</a></li>
                         <li><a href="#">关于我们</a></li>
                         <li><a href="#">联系方式</a></li>
                     </ul>
@@ -62,17 +56,18 @@
 
             <nav>
                 <input name = "query"
-                    type="text"
-                    class="form-control"
-                    hx-get="{% url 'home' %}"
-                    hx-target="#main-content"
-                    hx-swap="innerHTML"
-                    hx-trigger="keyup changed delay:500ms">
+                       type="text"
+                       placeholder="搜索"
+                       class="form-control"
+                       hx-get="{% url 'home' %}"
+                       hx-target="#main-content"
+                       hx-swap="innerHTML"
+                       hx-trigger="keyup changed delay:500ms">
                 <ul>
-                    <li class="active">首页</li>
-                    <li><a href="#bottom">关于我们</a></li>
-                    <li><a href="{% url 'about' %}">新闻</a></li>
-                    <li><a href="#">聊天</a></li>
+                    <li class="active"><a href="{% url 'home' %}">首页</a></li>
+                    <li><a href="#footer">关于我们</a></li>
+                    <li><a href="{% url 'topic' %}">主题</a></li>
+                    <li><a href="{% url 'chat' %}">聊天</a></li>
                     <li><a href="{% url 'home' %}"><img src="{% static 'main/img/ukrainian.png' %}" alt="User"></a></li>
                     {% if user.is_authenticated %}
                     <div class="prof">

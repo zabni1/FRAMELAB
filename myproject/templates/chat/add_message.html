@@ -13,7 +13,7 @@
     <div hx-get="{% url 'get_message' message %}"
          hx-target="#chat"
          hx-swap="innerHTML"
-         hx-trigger="revealed"></div>
+         hx-trigger="load"></div>
     <form hx-post="{% url 'add_message' %}"
           hx-target="#chat"
           hx-swap="innerHTML">
@@ -22,5 +22,5 @@
                  type="text"
                  readonly>
 
-        <button type="submit">Відправити</button>
+
     </form>

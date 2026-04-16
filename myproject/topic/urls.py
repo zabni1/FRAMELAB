@@ -8,7 +8,7 @@ urlpatterns = [
     path('create/', views.TopicCreateView.as_view(), name='topic_create'),
     path('update/<int:pk>', views.TopicUpdateView.as_view(), name='topic_update'),
     path('delete/<int:pk>', views.TopicDeleteView.as_view(), name='topic_delete'),
-    path('update-comments/<int:pk>', views.create_comment, name='update_comments'),
+    path('update-comments/<int:pk>', views.create_comment, name='create_comment'),
     path('delete-comments/<int:pk>', views.delete_comment, name='delete_comments'),
     path('get-input-for_reply/<int:pk>', views.get_input_for_reply, name='get_input_for_reply'),
     path('get-input-for-reply-on-reply/<int:pk>/<str:username>', views.get_input_for_reply_on_reply,

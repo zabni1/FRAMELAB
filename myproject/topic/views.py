@@ -36,18 +36,38 @@ class TopicDetailView(DetailView, DataMixin):
 
     def get_context_data(self, **kwargs):
         context = super(TopicDetailView, self).get_context_data(**kwargs)
-        context['comment'] = Comment.objects.filter(topic=self.object).annotate(likes=Count('likes', distinct=True),
-                                                                                replies=Count('replies', distinct=True)).order_by('created_at')
+        context['comment'] = Comment.objects.filter(topic=self.object).annotate(all_likes=Count('likes', distinct=True),
+                                                                                all_replies=Count('replies', distinct=True)).order_by('created_at')
         if self.request.user.is_authenticated:
            return self.get_mixin_context(context, self.request.user.email, comment=context['comment'])
         return context
 
 
-class TopicCreateView(CreateView):
+class TopicCreateView(View):
     template_name = 'topic/create.html'
     form_class = TopicCreateForm
     model = Topic
     success_url = reverse_lazy('topic')
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class()
+        if form.is_valid():
+            title = request.cleaned_data["title"]
+            description = request.cleaned_data["description"]
+            category = request.cleaned_data["category"]
+            slug =  request.cleaned_data["slug"]
+            self.model.objects.create(title=title,
+                                      description=description,
+                                      email = request.user.email,
+                                      user=request.user.username,
+                                      category=category,
+                                      slug=slug)
+            return redirect('topic')
+        return render(request, self.template_name, {'form': form})
 
 
 class TopicUpdateView(UpdateView):

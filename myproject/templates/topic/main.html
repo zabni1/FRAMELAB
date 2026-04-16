@@ -2,14 +2,20 @@
 {% load static %}
 {% block title %}Теми{% endblock %}
 {% block content %}
-<div id="topic-content"></div>
-<div id="loader" class="htmx-indicator">Завантаження...</div>
-<div hx-get="{% url 'topic_update_page' page %}"
-     hx-target="#topic-content"
-     hx-indicator="#loader"
-     hx-swap="beforeend"
-     hx-trigger="revealed"></div>
-<div class="topic">
-    <a href="{% url 'topic_create' %}">Створити тему</a>
-</div>
+    <div id="topic-content"></div>
+    <div id="loader" class="htmx-indicator">Завантаження...</div>
+    <div hx-get="{% url 'topic_update_page' page %}"
+         hx-target="#topic-content"
+         hx-indicator="#loader"
+         hx-swap="beforeend"
+         hx-trigger="revealed"></div>
+    {% if user.is_authenticated %}
+    <div class="topic">
+        <a href="{% url 'topic_create' %}">Створити тему</a>
+    </div>
+    {% else %}
+    <div class="topic">
+        <a href="{% url 'login' %}">Створити тему</a>
+    </div>
+    {% endif %}
 {% endblock %}

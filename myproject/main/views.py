@@ -72,7 +72,8 @@ class UpdateSavedView(DataMixin, View):
 class TranslatePageView(View):
     def get(self, request):
         if request.headers.get('HX-Request'):
-            return render(request, 'partials/translate.html')
+            languages = Language.objects.all()
+            return render(request, 'partials/translate.html', {'languages': languages})
         return redirect('home')
 
 

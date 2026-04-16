@@ -15,7 +15,6 @@ def chat(request):
     return render(request, 'chat/main.html', context)
 
 
-
 @login_required(login_url='login')
 def add_message(request):
     if request.headers.get('HX-Request'):
@@ -30,4 +29,12 @@ def get_message(request, message):
     if request.headers.get('HX-Request'):
         context = get_reply(request.user.pk, message)
         return render(request, 'chat/get_reply.html', context)
+    return redirect('chat')
+
+@login_required(login_url='login')
+def clear_chat(request):
+    if request.headers.get('HX-Request'):
+        Message.objects.filter(Q(user1=request.user.pk, user2=0) |
+                                          Q(user1=0, user2=request.user.pk)).order_by('pk').delete()
+        return render(request, 'chat/clear_chat.html')
     return redirect('chat')
