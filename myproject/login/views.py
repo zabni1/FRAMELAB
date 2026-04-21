@@ -1,26 +1,25 @@
 from django.conf import settings
-from django.contrib.auth import authenticate, get_user_model, logout
+from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, resolve_url
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, FormView
 from .forms import LoginForm, RegisterForm, ProfileUserForm
-from main.email_services import send_email_after_login, send_email_after_registration
+from .email_services import send_email_after_login, send_email_after_registration
 from main.models import Saved
 from topic.models import Topic
 
 
-def login(request):
+def user_login(request):
     form = LoginForm()
     if request.method == 'POST':
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            email = request.POST.get('email')
+            password = request.POST.get('password')
             user = authenticate(request, email=email, password=password)
             if user is not None:
-                login(request)
-                send_email_after_login(email)
+                login(request, user)
+                send_email_after_login(user.email)
                 return redirect('home')
     return render(request, 'login/login.html', {'form': form})
 

@@ -1,43 +1,15 @@
-{% extends 'main/layout.html' %}
-{% load static %}
-{% block title %}Тема: {{ topic.username }}{% endblock %}
-{% block content %}
-
-<div>
-        <h2>Автор: {{ topic.username }}</h2>
-        <h1>{{ topic.name }}</h1>
-        <h3>Категорія: {{ topic.category }}</h3>
-        <h1>{{ topic.description }}</h1>
-</div>
-<div id="comment-input"
-     hx-swap-oob="true">
-{% if user.is_authenticated %}
-    <input type="text"
-           name="comment"
-           class="comments-input"
-           placeholder="Введіть коментар"
-           hx-get="{% url 'create_comment' topic.id %}"
-           hx-target="#comments"
-           hx-swap="innerHTML">
-{% else %}
-    <input class="comments-input"
-           value="Ввійдіть на акаунт"
-           readonly>
-{% endif %}
-</div>
-<div id="comments">
-    {% if comment %}
+{% if comment %}
         {% for m in comment %}
-            <a href="{% url 'profile' m.username %}">{{ m.username }}</a>
+            <h3>{{ m.username }}</h3>
             <h2>{{ m.comment }}</h2>
-            <div id="like-comment-{{ m.pk }}">
+            <div id="like_comment">
             {% if m.id in likes_com %}
                 <button hx-get="{% url 'delete_like_on_comment' m.pk %}"
-                        hx-target="#like-comment-{{ m.pk }}"
+                        hx-target="#like_comment"
                         hx-swap="innerHTML">Прибрати лайк {{ m.all_likes }}</button>
             {% else %}
                 <button hx-get="{% url 'like_comment' m.pk %}"
-                        hx-target="#like-comment-{{ m.pk }}"
+                        hx-target="#like_comment"
                         hx-swap="innerHTML">Вподобати {{ m.all_likes }}</button>
             {% endif %}
             </div>
@@ -45,7 +17,7 @@
             <button hx-get="{% url 'get_input_for_reply' m.pk %}"
                     hx-target="#reply-comment-{{ m.pk }}"
                     hx-swap="innerHTML">Відповісти</button>
-            <div id="reply-comment-{{ m.pk }}"></div>
+
             {% else %}
             <form action="{% url 'login' %}">
                 <button class="" type="submit">Відповісти</button>
@@ -56,17 +28,34 @@
                         hx-target="#comments"
                         hx-swap="innerHTML">Видалити</button>
             {% endif %}
-            <div id="reply-{{ m.pk }}">
+            <div id="reply-comment-{{ m.pk }}"></div>
             {% if m.all_replies > 0 %}
-                <button hx-get="{% url 'get_replies' m.pk %}"
+                <div id="reply-{{ m.pk }}">
+                <button hx-get="{% url 'get_replies' %}"
                         hx-target="#reply-{{ m.pk }}"
                         hx-swap="innerHTML">Відкрити відповіді: {{ m.all_replies }}</button>
                 </div>
             {% endif %}
 
         {% endfor %}
-    {% else %}
-            <h3>Відповідей поки немає</h3>
-    {% endif %}
+{% else %}
+        <h3>Відповідей поки немає</h3>
+{% endif %}
+
+
+<div id="comment-input"
+     hx-swap-oob="true">
+{% if user.is_authenticated %}
+    <input type="text"
+           name="comment"
+           class="comments-input"
+           placeholder="Введіть коментар"
+           hx-get="{% url 'create_comment' topic_id %}"
+           hx-target="#comments"
+           hx-swap="innerHTML">
+{% else %}
+    <input class="comments-input"
+           value="Ввійдіть на акаунт"
+           readonly>
+{% endif %}
 </div>
-{% endblock %}

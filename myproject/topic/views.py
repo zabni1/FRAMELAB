@@ -91,16 +91,39 @@ def create_comment(request, pk):
                                topic_id=pk)
         data = DataMixin()
         context = data.get_context_comments(pk=pk, email=request.user.email)
-        return render(request, 'partials/comment_update.html', context)
+        return render(request, 'partials/comment_create.html', context)
     return redirect('topic')
 
 
 def delete_comment(request, pk):
     if request.headers.get('HX-Request'):
-        a = Comment.objects.get(pk = pk).delete()
+        a = Comment.objects.get(pk = pk)
         data = DataMixin()
         context = data.get_context_comments(pk=a.topic_id, email=request.user.email)
-        return render(request, 'partials/comment_update.html', context)
+        a.delete()
+        return render(request, 'partials/comment_delete.html', context)
+    return redirect('topic')
+
+def like_comment(request, pk):
+    if request.headers.get('HX-Request'):
+        comment = Comment.objects.get(pk = pk)
+        Likes.objects.create(comment=comment,
+                             email=request.user.email)
+        likes = Likes.objects.filter(comment=comment).count()
+        context = {'likes': likes,
+                   'pk': pk}
+        return render(request, 'partials/like_comment.html', context    )
+    return redirect('topic')
+
+def delete_like_on_comment(request, pk):
+    if request.headers.get('HX-Request'):
+        comment = Comment.objects.get(pk=pk)
+        Likes.objects.get(comment=comment,
+                          email=request.user.email).delete()
+        likes = Likes.objects.filter(comment=comment).count()
+        context = {'likes': likes,
+                   'pk': pk}
+        return render(request, 'partials/delete_like_on_comment.html', context)
     return redirect('topic')
 
 
@@ -153,10 +176,33 @@ def create_reply_on_reply(request, pk, username):
 
 def delete_reply(request, pk):
     if request.headers.get('HX-Request'):
-        Reply.objects.get(pk=pk).delete()
+        a = Reply.objects.get(pk=pk)
         data = DataMixin()
-        context = data.get_context_replies(pk=pk, email=request.user.email)
+        context = data.get_context_replies(pk=a.comment_id, email=request.user.email)
+        a.delete()
         return render(request, 'partials/reply_comment.html', context)
+    return redirect('topic')
+
+def like_reply(request, pk):
+    if request.headers.get('HX-Request'):
+        reply = Reply.objects.get(pk=pk)
+        Likes.objects.create(reply=reply,
+                             email=request.user.email)
+        likes = Likes.objects.filter(reply=reply).count()
+        context = {'likes': likes,
+                   'pk': pk}
+        return render(request, 'partials/like_reply.html', context)
+    return redirect('topic')
+
+def delete_like_on_reply(request, pk):
+    if request.headers.get('HX-Request'):
+        reply = Reply.objects.get(pk=pk)
+        Likes.objects.get(reply=reply,
+                          email=request.user.email).delete()
+        likes = Likes.objects.filter(reply=reply).count()
+        context = {'likes': likes,
+                   'pk': pk}
+        return render(request, 'partials/delete_like_on_reply.html', context)
     return redirect('topic')
 
 

@@ -11,7 +11,7 @@ class LoginForm(forms.ModelForm):
             'password': 'Пароль',
         }
         widgets = {
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email або логін'}),
+            'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email або логін'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}),
         }
 
@@ -28,25 +28,6 @@ class RegisterForm(forms.Form):
 
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                                                 'placeholder': 'Пароль'}))
-
-
-
-
-    # class Meta:
-    #     model = get_user_model()
-    #     fields = ('full_name','username','email', 'password')
-    #     labels = {
-    #         'full_name': "Повне ім'я",
-    #         'username': 'Логін',
-    #         'email': 'Email',
-    #         'password': 'Пароль',
-    #     }
-    #     widgets = {
-    #         'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Повне ім'я"}),
-    #         'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}),
-    #         'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
-    #         'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}),
-    #     }
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -66,6 +47,10 @@ class RegisterForm(forms.Form):
         password = self.cleaned_data['password']
         if len(password) < 6:
             raise forms.ValidationError("Такий пароль занадто короткий!")
+        elif len(password) == 0:
+            raise forms.ValidationError("Введіть пароль!")
+        elif not any(char.isalpha() for char in password):
+            raise forms.ValidationError("Введіть літери!")
         return password
 
 

@@ -1,0 +1,3 @@
+<button hx-get="{% url 'like_reply' pk %}"
+        hx-target="#like-reply-{{ pk }}"
+        hx-swap="innerHTML">Вподобати {{ likes }}</button>

@@ -1,0 +1,3 @@
+<button hx-get="{% url 'delete_like_on_comment' pk %}"
+        hx-target="#like-comment-{{ pk }}"
+        hx-swap="innerHTML">Прибрати лайк {{ likes }}</button>

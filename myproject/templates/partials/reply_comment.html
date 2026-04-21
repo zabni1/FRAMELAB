@@ -6,11 +6,17 @@
     <a href="{% url 'profile' m.username %}">{{ m.username }}</a>
     {% endif %}
     <h2>{{ m.reply }}</h2>
-    {% if m.id in likes_com %}
-        <button>Прибрати лайк {{ m.likes }}</button>
-    {% else %}
-         <button>Вподобати {{ m.likes }}</button>
-    {% endif %}
+    <div id="like-reply-{{ m.pk }}">
+            {% if m.id in likes_com %}
+                <button hx-get="{% url 'delete_like_on_reply' m.pk %}"
+                        hx-target="#like-reply-{{ m.pk }}"
+                        hx-swap="innerHTML">Прибрати лайк {{ m.all_likes }}</button>
+            {% else %}
+                <button hx-get="{% url 'like_reply' m.pk %}"
+                        hx-target="#like-reply-{{ m.pk }}"
+                        hx-swap="innerHTML">Вподобати {{ m.all_likes }}</button>
+            {% endif %}
+    </div>
     {% if user.is_authenticated %}
             <button hx-get="{% url 'get_input_for_reply_on_reply' m.pk m.username %}"
                     hx-target="#reply-on-reply-{{ m.pk }}"
@@ -22,7 +28,7 @@
             </form>
     {% endif %}
     {% if m.pk in reply_user %}
-    <button hx-get="{% 'delete_reply' m.pk %}"
+    <button hx-get="{% url 'delete_reply' m.pk %}"
             hx-target="#reply-{{ m.comment.pk }}"
             hx-swap="innerHTML">Видалити</button>
     {% endif %}

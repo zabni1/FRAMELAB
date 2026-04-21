@@ -5,14 +5,13 @@
 
 <div class="form-container1">
     <div class="form-wrapper">
-      <form class="login-form">
         <h2>Вхід</h2>
-          {% csrf_token %}
-           {{ form.as_p }}
-        <button type="submit">Вхід</button>
-         <a href="{% url 'signup' %}">Зареєструватися</a>
-
-      </form>
+        <form method="POST" class="login-form">
+            {% csrf_token %}
+             {{ form.as_p }}
+            <button type="submit">Вхід</button>
+            <a href="{% url 'signup' %}">Зареєструватися</a>
+        </form>
     </div>
 </div>
 {% endblock %}
