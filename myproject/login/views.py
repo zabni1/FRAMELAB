@@ -9,13 +9,14 @@ from .forms import LoginForm, RegisterForm, ProfileUserForm
 from .email_services import send_email_after_login, send_email_after_registration
 from main.models import Saved
 from topic.models import Topic
+from .models import User
 
 
 def user_login(request):
     form = LoginForm()
     if request.method == 'POST':
-            email = request.POST.get('email')
-            password = request.POST.get('password')
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
@@ -27,8 +28,14 @@ def user_login(request):
 def signup(request):
     form = RegisterForm()
     if request.method == 'POST':
-        if form.is_valid():
-            user = form.save()
+            full_name = request.POST.get('full_name')
+            email = request.POST.get('email')
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = get_user_model().objects.create(full_name=full_name,
+                                                   email=email,
+                                                   username=username,
+                                                   password=password)
             login(request, user)
             send_email_after_registration(user.email)
             return redirect('home')
