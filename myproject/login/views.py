@@ -1,11 +1,16 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import PasswordContextMixin
 from django.shortcuts import render, redirect, resolve_url
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import UpdateView, FormView
-from .forms import LoginForm, RegisterForm, ProfileUserForm
+from .forms import ProfileForm, RegisterForm, ProfileUserForm
 from .email_services import send_email_after_login, send_email_after_registration
 from main.models import Saved
 from topic.models import Topic
@@ -13,8 +18,9 @@ from .models import User
 
 
 def user_login(request):
-    form = LoginForm()
     if request.method == 'POST':
+        form = ProfileForm(request=request, data=request.POST)
+        if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
@@ -22,24 +28,62 @@ def user_login(request):
                 login(request, user)
                 send_email_after_login(user.email)
                 return redirect('home')
+    else:
+        form = ProfileForm()
     return render(request, 'login/login.html', {'form': form})
 
 
 def signup(request):
-    form = RegisterForm()
     if request.method == 'POST':
-            full_name = request.POST.get('full_name')
-            email = request.POST.get('email')
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = get_user_model().objects.create(full_name=full_name,
-                                                   email=email,
-                                                   username=username,
-                                                   password=password)
-            login(request, user)
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             send_email_after_registration(user.email)
             return redirect('home')
+    else:
+        form = RegisterForm()
     return render(request, 'login/signup.html',{'form': form})
+
+# class SingUpView(PasswordContextMixin, FormView):
+#     template_name = 'login/signup.html'
+#     success_url = reverse_lazy('password_reset_done')
+#     form_class = RegisterForm
+#     email_template_name = "login/password_reset_email.html"
+#     token_generator = default_token_generator
+
+
+class TestView(PasswordContextMixin, FormView):
+        template_name = 'login/signup.html'
+        success_url = reverse_lazy('password_reset_done')
+        form_class = PasswordResetForm
+        email_template_name = "login/password_reset_email.html"
+        token_generator = default_token_generator
+        title = "Password reset"
+        extra_email_context = None
+        from_email = None
+        html_email_template_name = None
+        subject_template_name = "registration/password_reset_subject.txt"
+
+
+        @method_decorator(csrf_protect)
+        def dispatch(self, *args, **kwargs):
+            return super().dispatch(*args, **kwargs)
+
+        def form_valid(self, form):
+            opts = {
+                "use_https": self.request.is_secure(),
+                "token_generator": self.token_generator,
+                "from_email": self.from_email,
+                "email_template_name": self.email_template_name,
+                "subject_template_name": self.subject_template_name,
+                "request": self.request,
+                "html_email_template_name": self.html_email_template_name,
+                "extra_email_context": self.extra_email_context,
+            }
+            form.save(**opts)
+            return super().form_valid(form)
+
 
 def user_logout(request):
     logout(request)

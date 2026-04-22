@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'topic',
     'chat',
     'debug_toolbar',
+    'axes',
+
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'axes.middleware.AxesMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -144,6 +147,7 @@ LOGIN_URL = 'login'
 
 
 AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend',
     'django.contrib.auth.backends.ModelBackend',
     'login.authentication.EmailAuth',
 ]
@@ -162,5 +166,10 @@ AUTH_USER_MODEL = 'login.User'
 
 DEFAULT_USER_IMAGE = MEDIA_URL + 'default.png'
 
-LOGIN_ATTEMPTS_LIMIT = 5
-LOGIN_ATTEMPTS_TIMEOUT = 300
+# LOGIN_ATTEMPTS_LIMIT = 5
+# LOGIN_ATTEMPTS_TIMEOUT = 300
+
+
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 0.3
+AXES_LOCKOUT_TEMPLATE = 'login/lockout.html'

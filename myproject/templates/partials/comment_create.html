@@ -2,15 +2,19 @@
         {% for m in comment %}
             <h3>{{ m.username }}</h3>
             <h2>{{ m.comment }}</h2>
-            <div id="like_comment">
+            <div id="like-comment-{{ m.pk }}">
             {% if m.id in likes_com %}
                 <button hx-get="{% url 'delete_like_on_comment' m.pk %}"
-                        hx-target="#like_comment"
+                        hx-target="#like-comment-{{ m.pk }}"
                         hx-swap="innerHTML">Прибрати лайк {{ m.all_likes }}</button>
-            {% else %}
+            {% elif m.id not in likes_com %}
                 <button hx-get="{% url 'like_comment' m.pk %}"
-                        hx-target="#like_comment"
+                        hx-target="#like-comment-{{ m.pk }}"
                         hx-swap="innerHTML">Вподобати {{ m.all_likes }}</button>
+            {% elif not user.is_authenticated %}
+             <form action="{% url 'login' %}">
+                 <button>Вподобати {{ m.all_likes }}</button>
+             </form>
             {% endif %}
             </div>
             {% if user.is_authenticated %}

@@ -1,38 +1,63 @@
 from django import forms
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
+from django.db.models import Q
 
+from .models import User
 
-class LoginForm(forms.ModelForm):
-    class Meta:
-        model = get_user_model()
-        fields = ('email', 'password')
-        labels = {
-            'email': 'Email або логін',
-            'password': 'Пароль',
-        }
-        widgets = {
-            'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email або логін'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}),
-        }
+class ProfileForm(forms.Form):
+    email = forms.CharField(label='Email або логін', widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                                      'placeholder': 'Email або логін'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}))
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not get_user_model().objects.filter(Q(username=email) | Q(email=email)).exists():
+            raise forms.ValidationError("Такого логіна не існує!")
+        return email
 
-class RegisterForm(forms.Form):
-    full_name = forms.CharField(label="Повне ім'я",widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                                 'placeholder': "Повне ім'я"}))
+    def clean_password(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+        user = authenticate(self.request, username=email, password=password)
+        if not user:
+            raise forms.ValidationError("Неправильний пароль!")
+        return password
+
+class RegisterForm(forms.ModelForm):
+
     username = forms.CharField(label='Логін', widget=forms.TextInput(attrs={'class': 'form-control',
                                                                             'placeholder': 'Логін'}))
 
-    email = forms.CharField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-control',
-                                                                          'placeholder': 'Email'}))
+    class Meta:
+        model = User
+        fields = ('full_name', 'username', 'email', 'password')
+        labels = {
+            'full_name': "Повне ім'я",
+            'email': 'Email',
+            'password': 'Пароль',
+        }
 
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                                                                'placeholder': 'Пароль'}))
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Повне ім'я"}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'})
+        }
+
+
 
     def clean_username(self):
         username = self.cleaned_data['username']
         if get_user_model().objects.filter(username=username).exists():
             raise forms.ValidationError("Такий логін вже існує!")
+        elif username.istitle():
+            raise forms.ValidationError("Логін має починатися з маленької")
+        for a in username:
+            if a.isupper():
+                raise forms.ValidationError("Логін має містити тільки маленькі літери")
         return username
 
     def clean_email(self):
