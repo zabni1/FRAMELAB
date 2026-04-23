@@ -1,0 +1,13 @@
+{% load i18n %}{% autoescape off %}
+{% blocktranslate %}Ви отримали це повідомлення щоб підтвердити почту для FRAMELAB.{% endblocktranslate %}
+
+{% translate "Будь ласка перейдіть за посиланням:" %}
+{% block reset_link %}
+{{ protocol }}://{{ domain }}{% url 'signup_done' uidb64=uid token=token %}
+{% endblock %}
+{% translate 'Твій логін:' %} {{ username }}
+
+{% translate "Дякую, що відвідали наш сайт!" %}
+
+
+{% endautoescape %}

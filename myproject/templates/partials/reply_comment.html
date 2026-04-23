@@ -7,11 +7,11 @@
     {% endif %}
     <h2>{{ m.reply }}</h2>
     <div id="like-reply-{{ m.pk }}">
-            {% if m.id in likes_com %}
+            {% if m.id in likes_rep %}
                 <button hx-get="{% url 'delete_like_on_reply' m.pk %}"
                         hx-target="#like-reply-{{ m.pk }}"
                         hx-swap="innerHTML">Прибрати лайк {{ m.all_likes }}</button>
-            {% elif m.id not in likes_com %}
+            {% elif m.id not in likes_rep %}
                 <button hx-get="{% url 'like_reply' m.pk %}"
                         hx-target="#like-reply-{{ m.pk }}"
                         hx-swap="innerHTML">Вподобати {{ m.all_likes }}</button>
@@ -38,3 +38,14 @@
     {% endif %}
 </div>
 {% endfor %}
+
+<div id="reply-comment-{{ pk }}"
+     hx-swap-oob="true">
+        <input type="text"
+               name="reply"
+               class="reply-input"
+               placeholder="Введіть відповідь"
+               hx-get="{% url 'create_reply' pk %}"
+               hx-target="#reply-{{ pk }}"
+               hx-swap="innerHTML">
+</div>

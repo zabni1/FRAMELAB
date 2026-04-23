@@ -22,7 +22,7 @@ class ProfileForm(forms.Form):
     def clean_password(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
-        user = authenticate(self.request, username=email, password=password)
+        user = authenticate(self.request, email=email, password=password)
         if not user:
             raise forms.ValidationError("Неправильний пароль!")
         return password

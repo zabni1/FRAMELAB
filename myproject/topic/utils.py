@@ -30,6 +30,7 @@ class DataMixin:
         likes_rep = Likes.objects.filter(email=email).values_list('reply_id', flat=True)
         reply_user = Reply.objects.filter(email=email).values_list('pk', flat=True)
         context = {
+            'pk': pk,
             'replies': replies,
             'likes_rep': likes_rep,
             'reply_user': reply_user

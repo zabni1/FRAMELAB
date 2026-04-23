@@ -5,13 +5,16 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import PasswordContextMixin
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect, resolve_url
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import UpdateView, FormView
 from .forms import ProfileForm, RegisterForm, ProfileUserForm
-from .email_services import send_email_after_login, send_email_after_registration
+from .email_services import confirm_email, send_email_after_login, send_email_after_registration
 from main.models import Saved
 from topic.models import Topic
 from .models import User
@@ -33,17 +36,39 @@ def user_login(request):
     return render(request, 'login/login.html', {'form': form})
 
 
-def signup(request):
+def signup_confirm(request):
+    token_generator = default_token_generator
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            send_email_after_registration(user.email)
-            return redirect('home')
+            current_site = get_current_site(request)
+            domain = current_site.domain
+            user_pk_bytes = force_bytes(user.pk)
+            context = {
+                'protocol': 'http',
+                'domain': domain,
+                'uid':urlsafe_base64_encode(user_pk_bytes),
+                'token': token_generator.make_token(user),
+                'username': user.username,
+            }
+            confirm_email(email=user.email, context=context)
+            return redirect('signup_complete')
     else:
         form = RegisterForm()
     return render(request, 'login/signup.html',{'form': form})
+
+def signup_complete(request):
+    return render(request, 'login/signup_complete.html')
+
+def signup_done(request, uidb64, token):
+    uid =  urlsafe_base64_decode(uidb64).decode()
+    user = get_user_model().objects.get(pk=uid)
+    user.active_status = True
+    user.save()
+    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+    send_email_after_registration(user.email)
+    return redirect('home')
 
 # class SingUpView(PasswordContextMixin, FormView):
 #     template_name = 'login/signup.html'

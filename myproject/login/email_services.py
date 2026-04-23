@@ -2,6 +2,13 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 
+
+def confirm_email(email, context):
+    html = render_to_string('email/confirm_email.html', context)
+    msg = EmailMultiAlternatives(subject='Підтвердження почти на FRAMELAB', to=[email])
+    msg.attach_alternative(html, 'text/html')
+    msg.send()
+
 def send_email_after_registration(email):
     html = render_to_string('email/signup.html')
     msg = EmailMultiAlternatives(subject='Код для авторизації', to=[email])
