@@ -1,23 +1,16 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import PasswordContextMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect, resolve_url
-from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.decorators.csrf import csrf_protect
-from django.views.generic import UpdateView, FormView
 from .forms import ProfileForm, RegisterForm, ProfileUserForm
 from .email_services import confirm_email, send_email_after_login, send_email_after_registration
 from main.models import Saved
 from topic.models import Topic
-from .models import User
+
 
 
 def user_login(request):
@@ -58,8 +51,10 @@ def signup_confirm(request):
         form = RegisterForm()
     return render(request, 'login/signup.html',{'form': form})
 
+
 def signup_complete(request):
     return render(request, 'login/signup_complete.html')
+
 
 def signup_done(request, uidb64, token):
     uid =  urlsafe_base64_decode(uidb64).decode()
@@ -69,45 +64,6 @@ def signup_done(request, uidb64, token):
     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     send_email_after_registration(user.email)
     return redirect('home')
-
-# class SingUpView(PasswordContextMixin, FormView):
-#     template_name = 'login/signup.html'
-#     success_url = reverse_lazy('password_reset_done')
-#     form_class = RegisterForm
-#     email_template_name = "login/password_reset_email.html"
-#     token_generator = default_token_generator
-
-
-class TestView(PasswordContextMixin, FormView):
-        template_name = 'login/signup.html'
-        success_url = reverse_lazy('password_reset_done')
-        form_class = PasswordResetForm
-        email_template_name = "login/password_reset_email.html"
-        token_generator = default_token_generator
-        title = "Password reset"
-        extra_email_context = None
-        from_email = None
-        html_email_template_name = None
-        subject_template_name = "registration/password_reset_subject.txt"
-
-
-        @method_decorator(csrf_protect)
-        def dispatch(self, *args, **kwargs):
-            return super().dispatch(*args, **kwargs)
-
-        def form_valid(self, form):
-            opts = {
-                "use_https": self.request.is_secure(),
-                "token_generator": self.token_generator,
-                "from_email": self.from_email,
-                "email_template_name": self.email_template_name,
-                "subject_template_name": self.subject_template_name,
-                "request": self.request,
-                "html_email_template_name": self.html_email_template_name,
-                "extra_email_context": self.extra_email_context,
-            }
-            form.save(**opts)
-            return super().form_valid(form)
 
 
 def user_logout(request):
@@ -119,15 +75,17 @@ def profile(request, username):
     photo = settings.DEFAULT_USER_IMAGE
     page = 0
     if request.user.username == username:
-        user = get_user_model().objects.get(username=username)
-        saved = Saved.objects.filter(email=request.user.email)
-        return render(request, 'login/user_profile.html', {'user': user, 'saved': saved,
+        user = get_user_model().objects.get(username=username, active_status=True)
+        topics = Topic.objects.filter(
+            email=request.user.email)
+        return render(request, 'login/user_profile.html', {'user': user, 'topics': topics,
                                                                                 'page': page,'photo': photo})
     else:
-        user = get_user_model().objects.get(username=username)
-        saved = Saved.objects.filter(email=user.email)
-    return render(request, 'login/profile.html', {'user': user, 'saved': saved,
-                                                                       'page': page, 'photo': photo})
+        user = get_user_model().objects.get(username=username, active_status=True)
+        topics = Topic.objects.filter(
+            email=request.user.email)
+    return render(request, 'login/profile.html', {'user': user, 'topics': topics,
+                                                                       'page': page, 'photo': photo, })
 
 
 @login_required(login_url='login')
@@ -148,7 +106,7 @@ def topic_update(request, page):
     if request.headers.get('HX-Request'):
         topics_qs = Topic.objects.filter(
             email=request.user.email
-        ).select_related('detail')
+        )
         topics = topics_qs[page:page + 9]
 
         if page + 9 >= topics_qs.count():

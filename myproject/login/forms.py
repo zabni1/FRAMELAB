@@ -23,7 +23,7 @@ class ProfileForm(forms.Form):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
         user = authenticate(self.request, email=email, password=password)
-        if not user:
+        if user is None:
             raise forms.ValidationError("Неправильний пароль!")
         return password
 

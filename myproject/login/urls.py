@@ -26,5 +26,4 @@ urlpatterns = [
                                                             name='password_reset_confirm'),
     path('password-reset/complete', PasswordResetCompleteView.as_view(template_name="login/password_reset_complete.html"),
                                                             name='password_reset_complete'),
-    path('test-view', views.TestView.as_view(), name='test_view'),
 ]

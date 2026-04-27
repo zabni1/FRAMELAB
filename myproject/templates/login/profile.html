@@ -13,7 +13,7 @@
         <a href="{% url 'saves' %}">Збережені</a>
         <a href="{% url 'delete_profile' %}">Видалити профіль</a>
 
-    {% if saved %}
+    {% if topics %}
     <div id="topics-user"></div>
     <div id="loader" class="htmx-indicator">Завантаження...</div>
     <div hx-get="{% url 'topic_update' page %}"
