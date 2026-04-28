@@ -19,7 +19,7 @@
      hx-swap-oob="true">
     <form hx-post="{% url 'add_message'  %}"
           hx-target="#messages"
-          hx-swap="innerHTML">
+          hx-swap="beforeend">
           {% csrf_token %}
           <input name="message"
                  type="text"
