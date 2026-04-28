@@ -9,9 +9,12 @@ def get_request(pk, message):
                            message=message)
     messages = Message.objects.filter(Q(user1=pk, user2=0) |
                                       Q(user1=0, user2=pk)).order_by('pk')
+    end = messages.count()
+    start = int(end) - 1
+
     context = {
         'message': message,
-        'messages': messages
+        'messages': messages[start:end],
     }
     return context
 
@@ -26,7 +29,9 @@ def get_reply(pk, message):
                            message=response.text)
     messages = Message.objects.filter(Q(user1=pk, user2=0) |
                                       Q(user1=0, user2=pk)).order_by('pk')
+    end = messages.count()
+    start = int(end) - 1
     context = {
-        'messages': messages
+        'messages': messages[start:end],
     }
     return context

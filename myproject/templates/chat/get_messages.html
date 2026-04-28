@@ -1,4 +1,9 @@
-
+    <div id="loader" class="htmx-indicator">Завантаження...</div>
+    <div hx-get="{% url 'get_messages' page %}"
+         hx-target="#chat"
+         hx-indicator="#loader"
+         hx-swap="afterend"
+         hx-trigger="revealed"></div>
     <div class="messages">
             {% for a in messages %}
                 {% if a.user1 == request.user.pk %}
@@ -9,12 +14,3 @@
             {% endfor %}
     </div>
 
-
-<script>
-        button=document.querySelector("#chat_button")
-        input=document.querySelector("#chat_input")
-        input.oninput=function(){
-            if(this.value==="") return button.style.display="none"
-            button.style.display="inline-block"
-        }
-</script>

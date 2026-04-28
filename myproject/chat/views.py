@@ -9,10 +9,29 @@ from .models import Message
 def chat(request):
     messages = Message.objects.filter(Q(user1=request.user.pk,user2=0) |
                                      Q(user1=0,user2=request.user.pk)).order_by('pk')
+    page = messages.count()
+
     context = {
             'messages': messages,
+            'page': page,
         }
     return render(request, 'chat/main.html', context)
+
+
+@login_required(login_url='login')
+def get_messages(request, page):
+    if request.headers.get('HX-Request'):
+        messages = Message.objects.filter(Q(user1=request.user.pk, user2=0) |
+                                          Q(user1=0, user2=request.user.pk)).order_by('pk')
+        start = page - 5
+        end = page
+
+        if start <= 0:
+            return render(request, 'chat/get_messages_last.html', {'messages': messages[0:end]})
+        else:
+            return render(request, 'chat/get_messages.html', {'messages': messages[start:end],
+                                                                                   'page': int(start)})
+    return redirect('chat')
 
 
 @login_required(login_url='login')
@@ -31,6 +50,7 @@ def get_message(request, message):
         return render(request, 'chat/get_reply.html', context)
     return redirect('chat')
 
+
 @login_required(login_url='login')
 def clear_chat(request):
     if request.headers.get('HX-Request'):
@@ -38,3 +58,4 @@ def clear_chat(request):
                                           Q(user1=0, user2=request.user.pk)).order_by('pk').delete()
         return render(request, 'chat/clear_chat.html')
     return redirect('chat')
+

@@ -20,9 +20,11 @@
            hx-target="#comments"
            hx-swap="innerHTML">
 {% else %}
-    <input class="comments-input"
-           value="Ввійдіть на акаунт"
-           readonly>
+    <a href="{% url 'login' %}">
+        <input class="comments-input"
+               placeholder="Введіть коментар"
+               readonly>
+    </a>
 {% endif %}
 </div>
 <div id="comments">

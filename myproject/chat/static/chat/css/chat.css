@@ -1,11 +1,11 @@
-.chat form{
+.chat-input form{
     position: fixed;
     top: 90%;
     left: 30%;
 
 }
 
-.chat input{
+.chat-input input{
     width: 560px;
     height: 50px;
     border-radius: 18px;

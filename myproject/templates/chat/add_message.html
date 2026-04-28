@@ -11,16 +11,30 @@
     </div>
 
     <div hx-get="{% url 'get_message' message %}"
-         hx-target="#chat"
-         hx-swap="innerHTML"
+         hx-target="#messages"
+         hx-swap="beforeend"
          hx-trigger="load"></div>
-    <form hx-post="{% url 'add_message' %}"
-          hx-target="#chat"
+
+
+<div class="chat-input"
+     id="chat-input"
+     hx-swap-oob="true">
+    <form hx-post="{% url 'add_message'  %}"
+          hx-target="#messages"
           hx-swap="innerHTML">
           {% csrf_token %}
           <input name="message"
                  type="text"
-                 readonly>
+                 placeholder="    Введіть питання"
+                 id="chat_input"
+                 maxlength="200">
 
-
+        <button id="chat_button" type="submit">Відправити</button>
     </form>
+    {% if messages.count > 0 %}
+    <button class="clear_chat"
+            hx-get="{% url 'clear_chat' %}"
+            hx-target="#chat"
+            hx-swap="innerHTML">Очистити чат</button>
+    {% endif %}
+</div>
