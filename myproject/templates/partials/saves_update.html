@@ -1,7 +1,7 @@
 <div id="saves">
     <div class="grid-container">
         {% for a in saved %}
-        <a href="{{ a.get_absolute_url }}">
+        <a href="{{ a.detail.file.url }}">
             <div class="grid-item">
                 <h3>{{ a.detail.name }}</h3>
                 <button hx-get="{% url 'saves_delete' a.id %}"

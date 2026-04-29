@@ -8,11 +8,11 @@
     <h2>{{ m.reply }}</h2>
     <div id="like-reply-{{ m.pk }}">
         {% if user.is_authenticated %}
-                {% if request.user.email in likes_rep %}
+                {% if m.id in likes_rep %}
                     <button hx-get="{% url 'delete_like_on_reply' m.pk %}"
                             hx-target="#like-reply-{{ m.pk }}"
                             hx-swap="innerHTML">Прибрати лайк {{ m.all_likes }}</button>
-                {% elif request.user.email not in likes_rep %}
+                {% elif m.id not in likes_rep %}
                     <button hx-get="{% url 'like_reply' m.pk %}"
                             hx-target="#like-reply-{{ m.pk }}"
                             hx-swap="innerHTML">Вподобати {{ m.all_likes }}</button>
