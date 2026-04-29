@@ -1,49 +1,54 @@
-<div class="frameworks">
-        {% for a in categories %}
-            {% if a.cat.slug == frameworks %}
-                {{ a.name }}
-                    {% if not a.id in saved and user.is_authenticated %}
-                        <button class=""
-                                name="update_slug"
+{% load static %}
+<div class="grid-frameworks">
+        <h1>Фреймворки</h1>
+        {% for a in technology %}
+            {% if a.category == "frameworks" %}
+                    <div class="grid-frame"><a href="{{ a.file.url }}"></a>
+                        <h2>{{ a.name }}</h2>
+                        <h3>{{ a.description }}</h3>
+                    {% if not a.id in saved %}
+                        <button name="update_slug"
                                 value="{{ a.slug }}"
                                 hx-get="{% url 'update_saved' show_cat %}"
                                 hx-target="#content"
-                                hx-swap="innerHTML">Зберегти</button>
-                    {% elif a.id in saved and user.is_authenticated %}
-                        <button class=""
-                                name="delete_slug"
+                                hx-swap="innerHTML"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></button>
+                    {% elif a.id in saved %}
+                        <button name="delete_slug"
                                 value="{{ a.slug }}"
                                 hx-get="{% url 'update_saved' show_cat %}"
                                 hx-target="#content"
-                                hx-swap="innerHTML">Видалити</button>
+                                hx-swap="innerHTML"><img src="{% static 'main/img/saves.png' %}" alt="Зберігти"></button>
                     {% elif not user.is_authenticated %}
-                        <button class=""><a href="{% url 'login' %}">Зберегти</a></button>
+                        <button class=""><a href="{% url 'login' %}"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></a></button>
                     {% endif %}
+                    </div>
             {% endif %}
         {% endfor %}
     </div>
 
-    <div class="libraries">
-         {% for a in categories %}
-            {% if a.cat.slug == libraries %}
-                {{ a.name }}
-                    {% if not a.id in saved and user.is_authenticated %}
-                        <button class=""
-                                name="update_slug"
+    <div class="grid-libraries">
+        <h1>Бібліотеки</h1>
+         {% for a in technology %}
+            {% if a.category == "libraries" %}
+            <div class="grid-frame"><a href="{{ a.file.url }}"></a>
+                <h2>{{ a.name }}</h2>
+                <h3>{{ a.description }}</h3>
+                    {% if not a.id in saved   %}
+                        <button name="update_slug"
                                 value="{{ a.slug }}"
                                 hx-get="{% url 'update_saved' show_cat %}"
                                 hx-target="#content"
-                                hx-swap="innerHTML">Зберегти</button>
-                    {% elif a.id in saved and user.is_authenticated %}
-                        <button class=""
-                                name="delete_slug"
+                                hx-swap="innerHTML"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></button>
+                    {% elif a.id in saved  %}
+                        <button name="delete_slug"
                                 value="{{ a.slug }}"
                                 hx-get="{% url 'update_saved' show_cat %}"
                                 hx-target="#content"
-                                hx-swap="innerHTML">Видалити</button>
+                                hx-swap="innerHTML"><img src="{% static 'main/img/saves.png' %}" alt="Зберігти"></button>
                     {% elif not user.is_authenticated %}
-                        <button class=""><a href="{% url 'login' %}">Зберегти</a></button>
+                        <button class=""><a href="{% url 'login' %}"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></a></button>
                     {% endif %}
+                </div>
             {% endif %}
         {% endfor %}
     </div>

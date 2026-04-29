@@ -14,7 +14,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['languages'] = Language.objects.all()
+        context['languages'] = Language.objects.all()[::-1]
         return context
 
     def get(self, request, *args, **kwargs):
@@ -32,7 +32,7 @@ class HomePageView(TemplateView):
 
 class CategoryPageView(ListView):
     template_name = 'main/category.html'
-    context_object_name = 'categories'
+    context_object_name = 'technology'
     allow_empty = False
 
     def get_context_data(self, **kwargs):
@@ -45,9 +45,8 @@ class CategoryPageView(ListView):
                 context['saved'] = saved
                 return context
         return context
-
     def get_queryset(self):
-        return Technology.objects.filter(lang__slug=self.kwargs['show_cat'])
+        return Technology.objects.filter(lang__slug=self.kwargs['show_cat']).select_related('lang')
 
 
 class UpdateSavedView(DataMixin, View):
@@ -56,17 +55,17 @@ class UpdateSavedView(DataMixin, View):
             update_slug = request.GET.get('update_slug')
             delete_slug = request.GET.get('delete_slug')
             if update_slug:
-                Saved.objects.create(email=request.user.username,
+                Saved.objects.create(email=request.user.email,
                                     detail=Technology.objects.get(slug=update_slug))
                 context = self.get_saves_data(request.user.email, show_cat)
                 return render(request, 'partials/category_update.html', context)
             elif delete_slug:
-                get = Saved.objects.get(email=request.user.username,
+                get = Saved.objects.get(email=request.user.email,
                                         detail=Technology.objects.get(slug=delete_slug))
                 get.delete()
                 context = self.get_saves_data(request.user.email, show_cat)
                 return render(request, 'partials/category_delete.html', context)
-        return reverse('category_page',  kwargs={'show_cat': show_cat})
+        return redirect('home')
 
 
 class TranslatePageView(View):

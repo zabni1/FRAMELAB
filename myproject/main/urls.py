@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
-    path('list/<slug:show_cat>', views.CategoryPageView.as_view(), name='category'),
+    path('<slug:show_cat>', views.CategoryPageView.as_view(), name='category'),
     path('update/<slug:show_cat>', views.UpdateSavedView.as_view(), name='update_saved'),
     path('translate', views.TranslatePageView.as_view(), name='translate'),
     path('detail/<slug:show_more>', views.DetailPageView.as_view(), name='detail'),
