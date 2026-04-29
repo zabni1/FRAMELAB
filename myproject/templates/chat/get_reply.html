@@ -32,3 +32,17 @@
         {% endif %}
     </div>
 
+<script>
+    {% if messages.count > 6 %}
+window.onload = function() {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+{% endif %}
+button=document.querySelector("#chat_button")
+input=document.querySelector("#chat_input")
+input.oninput=function(){
+    if(this.value==="") return button.style.display="none"
+    button.style.display="inline-block"
+}
+</script>
+

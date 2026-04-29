@@ -5,21 +5,38 @@
 {% if messages %}
 <div id="loader" class="htmx-indicator">Завантаження...</div>
 <div hx-get="{% url 'get_messages' page %}"
-         hx-target="#chat"
-         hx-indicator="#loader"
-         hx-swap="afterend"
-         hx-trigger="load"></div>
+     hx-target="#chat"
+     hx-indicator="#loader"
+     hx-swap="afterend"
+     hx-trigger="load"></div>
+<div id="whole_chat"
+     hx-swap-oob="true">
 <div class="chat" id="chat"></div>
-{% else %}
-    <h1>Вітаємо, це наша ШІ підтримка, напишіть ваш перший запит!</h1>
-{% endif %}
+</div>
 <div id="messages"></div>
+{% else %}
+    <div id="messages"><h1>Вітаємо, це наша ШІ підтримка, напишіть ваш перший запит!</h1></div>
+{% endif %}
 <div class="chat-input"
      id="chat-input"
      hx-swap-oob="true">
+    {% if messages %}
     <form hx-post="{% url 'add_message'  %}"
           hx-target="#messages"
           hx-swap="beforeend">
+           {% csrf_token %}
+          <input name="message"
+                 type="text"
+                 placeholder="    Введіть питання"
+                 id="chat_input"
+                 maxlength="200">
+
+        <button id="chat_button" type="submit">Відправити</button>
+    </form>
+    {% else %}
+    <form hx-post="{% url 'add_message'  %}"
+          hx-target="#messages"
+          hx-swap="innerHTML">
           {% csrf_token %}
           <input name="message"
                  type="text"
@@ -29,10 +46,12 @@
 
         <button id="chat_button" type="submit">Відправити</button>
     </form>
+    {% endif %}
+
     {% if messages.count > 0 %}
     <button class="clear_chat"
             hx-get="{% url 'clear_chat' %}"
-            hx-target="#chat"
+            hx-target="#messages"
             hx-swap="innerHTML">Очистити чат</button>
     {% endif %}
 </div>
