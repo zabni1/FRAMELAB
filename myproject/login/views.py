@@ -132,7 +132,12 @@ def topic_delete(request, topic_id):
 @login_required(login_url='login')
 def saves(request):
     page = 0
-    return render(request, 'login/saves.html', {'page': page})
+    saved = Saved.objects.filter(email=request.user.email)
+    context = {
+        'saved': saved,
+        'page': page,
+    }
+    return render(request, 'login/saves.html', context)
 
 @login_required(login_url='login')
 def saves_update(request, page):

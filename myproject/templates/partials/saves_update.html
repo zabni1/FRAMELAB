@@ -1,14 +1,15 @@
+{% load static %}
 <div id="saves">
-    <div class="grid-container">
+    <div class="grid-frameworks">
         {% for a in saved %}
-        <a href="{{ a.detail.file.url }}">
-            <div class="grid-item">
-                <h3>{{ a.detail.name }}</h3>
+            <div class="grid-frame">
+                <a href="{{ a.detail.file.url }}">
+                <h2>{{ a.detail.name }}</h2>
+                <h3>{{ a.detail.description }}</h3>
                 <button hx-get="{% url 'saves_delete' a.id %}"
                         hx-target="#saves"
-                        hx-swap="innerHTML">Видалити</button>
+                        hx-swap="innerHTML"><img src="{% static 'main/img/saves.png' %}" alt="Зберігти"></button></a>
             </div>
-        </a>
         {% endfor %}
     </div>
 </div>

@@ -6,103 +6,93 @@
     box-sizing: border-box;
 }
 
-body{
+body {
     font-family: 'Montserrat', sans-serif;
-    /*background: linear-gradient(180deg, #0f0f0f, #5a2d0c, #8a4f0f);*/
     background: #1C1917;
     width: 100%;
-    height: 200vh;
     color: #FAFAF9;
     font-weight: 400;
-    margin: 0;
-    padding: 0;
-
-
 }
 
 a {
     text-decoration: none;
-}
-
-
-.container {
-    width: 1000px;
-    margin: 0 auto;
-}
-
-p, h1, h2, h3, a {
     color: #FAFAF9;
 }
 
 header {
-    padding: 50px ;
+    padding: 50px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-
+    width: 1000px;
+    margin: 0 auto;
 }
 
 header .logo {
     text-transform: uppercase;
     font-size: 43px;
     font-weight: 700;
-    position: relative;
-    right: 218px;
-    bottom: 5px;
+    flex-shrink: 0;
 }
 
 header nav {
-    float : right;
-    width : 50%;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
 
+header .form-control {
+    width: 250px;
+    height: 40px;
+    border-radius: 40px;
+    background-color: #ffffff;
+    border: none;
+    padding: 0 15px;
+    margin-right: auto;
+    margin-left: 50px;
 }
 
 header nav ul {
+    font-size: 16px;
     display: flex;
-    justify-content: flex-end;
-    gap: 45px;
+    gap: 40px;
     align-items: center;
     list-style: none;
-    font-size: 17px;
-    left: 100px;
-    position: relative;
-    bottom: 20px;
+    margin: 0;
+    padding: 0;
+
 }
 
-header nav ul li {
-    display: inline-block;
-    left: 50px;
-    position: relative;
-}
 header nav ul li a {
     color: #fff;
     transition: all 150ms ease;
     white-space: nowrap;
-
-
-}
-
-header nav ul li.active::after {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 5px;
-    background: #323231;
-    border-radius: 15px;
+    position: relative;
+    padding-bottom: 5px;
 }
 
 header nav ul li a:hover {
     color: #5f605b;
 }
 
-header nav ul li :not(.active):not(.btn) a:hover {
+header nav ul li:not(.active):not(.btn) a:hover {
     border-bottom: 5px solid #323231;
     border-radius: 5px;
 }
 
 header nav ul li img {
     width: 38px;
+    vertical-align: middle;
+}
+
+.prof {
+    display: flex;
+    align-items: center;
+    gap: -25px;
+    min-width: 220px;
+    justify-content: flex-end;
 }
 
 .prof .btn a {
@@ -111,32 +101,10 @@ header nav ul li img {
     padding: 10px 20px;
     border-radius: 10px;
     transition: all 500ms ease;
-    margin: 0px;
-
-
+    display: block;
 }
 
-.prof{
-    position: relative;
-    left: 100px;
-    display: flex;
-    align-items: center;
-    margin-left: -90px;
-}
-
-header nav ul li.btn a:hover {
+.prof .btn a:hover {
     background: #2a2828;
     box-shadow: 0 6px 12px black;
 }
-
-.form-control {
-    width: 300px;
-    height: 40px;
-    right: 400px;
-    position: relative;
-    border-radius: 40px;
-    top: 20px;
-    background-color: #ffffff;
-}
-
-

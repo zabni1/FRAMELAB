@@ -4,11 +4,12 @@
 
 {% block content %}
 <div id="content">
+    <h1>Фреймворки</h1>
     <div class="grid-frameworks">
-        <h1>Фреймворки</h1>
+
         {% for a in technology %}
             {% if a.category == "frameworks" %}
-                    <div class="grid-frame"><a href="{{ a.file.url }}"></a>
+                    <div class="grid-frame"><a href="{{ a.file.url }}">
                         <h2>{{ a.name }}</h2>
                         <h3>{{ a.description }}</h3>
                     {% if not a.pk in saved %}
@@ -26,16 +27,17 @@
                     {% elif not user.is_authenticated %}
                         <button class=""><a href="{% url 'login' %}"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></a></button>
                     {% endif %}
+                        </a>
                     </div>
             {% endif %}
         {% endfor %}
     </div>
 
+    <h1>Бібліотеки</h1>
     <div class="grid-libraries">
-        <h1>Бібліотеки</h1>
          {% for a in technology %}
             {% if a.category == "libraries" %}
-            <div class="grid-frame"><a href="{{ a.file.url }}"></a>
+            <div class="grid-frame"><a href="{{ a.file.url }}">
                 <h2>{{ a.name }}</h2>
                 <h3>{{ a.description }}</h3>
                     {% if not a.pk in saved %}
@@ -53,6 +55,7 @@
                     {% elif not user.is_authenticated %}
                         <button class=""><a href="{% url 'login' %}"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></a></button>
                     {% endif %}
+                    </a>
                 </div>
             {% endif %}
         {% endfor %}

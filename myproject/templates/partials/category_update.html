@@ -1,18 +1,19 @@
 {% load static %}
-<div class="grid-frameworks">
-        <h1>Фреймворки</h1>
+<h1>Фреймворки</h1>
+    <div class="grid-frameworks">
+
         {% for a in technology %}
             {% if a.category == "frameworks" %}
-                    <div class="grid-frame"><a href="{{ a.file.url }}"></a>
+                    <div class="grid-frame"><a href="{{ a.file.url }}">
                         <h2>{{ a.name }}</h2>
                         <h3>{{ a.description }}</h3>
-                    {% if not a.id in saved %}
+                    {% if not a.pk in saved %}
                         <button name="update_slug"
                                 value="{{ a.slug }}"
                                 hx-get="{% url 'update_saved' show_cat %}"
                                 hx-target="#content"
                                 hx-swap="innerHTML"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></button>
-                    {% elif a.id in saved %}
+                    {% elif a.pk in saved %}
                         <button name="delete_slug"
                                 value="{{ a.slug }}"
                                 hx-get="{% url 'update_saved' show_cat %}"
@@ -21,25 +22,26 @@
                     {% elif not user.is_authenticated %}
                         <button class=""><a href="{% url 'login' %}"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></a></button>
                     {% endif %}
+                        </a>
                     </div>
             {% endif %}
         {% endfor %}
     </div>
 
+    <h1>Бібліотеки</h1>
     <div class="grid-libraries">
-        <h1>Бібліотеки</h1>
          {% for a in technology %}
             {% if a.category == "libraries" %}
-            <div class="grid-frame"><a href="{{ a.file.url }}"></a>
+            <div class="grid-frame"><a href="{{ a.file.url }}">
                 <h2>{{ a.name }}</h2>
                 <h3>{{ a.description }}</h3>
-                    {% if not a.id in saved   %}
+                    {% if not a.pk in saved %}
                         <button name="update_slug"
                                 value="{{ a.slug }}"
                                 hx-get="{% url 'update_saved' show_cat %}"
                                 hx-target="#content"
                                 hx-swap="innerHTML"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></button>
-                    {% elif a.id in saved  %}
+                    {% elif a.pk in saved %}
                         <button name="delete_slug"
                                 value="{{ a.slug }}"
                                 hx-get="{% url 'update_saved' show_cat %}"
@@ -48,6 +50,7 @@
                     {% elif not user.is_authenticated %}
                         <button class=""><a href="{% url 'login' %}"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></a></button>
                     {% endif %}
+                    </a>
                 </div>
             {% endif %}
         {% endfor %}
