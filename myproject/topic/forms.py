@@ -1,6 +1,4 @@
 from django import forms
-from django.utils.text import slugify
-
 from .models import Topic
 
 
@@ -32,9 +30,15 @@ class TopicCreateForm(forms.ModelForm):
             'description': forms.TextInput(attrs={'class':'form-control','placeholder':'Введіть опис'}),
         }
 
-        def clean(self):
-            cleaned_data = super().clean()
-            title = cleaned_data.get("title")
-            if title:
-                cleaned_data["slug"] = slugify(title)
-            return cleaned_data
+
+    def clean_title(self):
+        title = self.cleaned_data["title"]
+        if len(title) > 100:
+            raise forms.ValidationError("Такий заголовок занадто довгий")
+        return title
+
+    def clean_description(self):
+        description = self.cleaned_data["description"]
+        if len(description) > 1000:
+            raise forms.ValidationError("Такий опис занадто довгий")
+        return description

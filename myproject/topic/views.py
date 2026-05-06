@@ -1,5 +1,6 @@
 from django.db.models import Count
 from django.shortcuts import render, redirect
+from django.template.defaultfilters import slugify
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView, TemplateView
@@ -44,30 +45,26 @@ class TopicDetailView(DetailView, DataMixin):
 
 
 class TopicCreateView(View):
-    template_name = 'topic/create.html'
-    form_class = TopicCreateForm
-    model = Topic
-    success_url = reverse_lazy('topic')
-
     def get(self, request):
-        form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        form = TopicCreateForm
+        return render(request, 'topic/create.html', {'form': form})
 
     def post(self, request):
-        form = self.form_class()
+        form = TopicCreateForm(request.POST)
         if form.is_valid():
-            title = request.cleaned_data["title"]
-            description = request.cleaned_data["description"]
-            category = request.cleaned_data["category"]
-            slug =  request.cleaned_data["slug"]
-            self.model.objects.create(title=title,
-                                      description=description,
-                                      email = request.user.email,
-                                      user=request.user.username,
-                                      category=category,
-                                      slug=slug)
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            category = form.cleaned_data['category']
+            slug = slugify(title)
+            Topic.objects.create(title=title,
+                                 description=description,
+                                 email = request.user.email,
+                                 username=request.user.username,
+                                 category=category,
+                                 slug=slug)
+
             return redirect('topic')
-        return render(request, self.template_name, {'form': form})
+        return render(request, 'topic/create.html', {'form': form})
 
 
 class TopicUpdateView(UpdateView):
