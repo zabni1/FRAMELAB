@@ -3,11 +3,10 @@ from . import views
 
 urlpatterns = [
     path('', views.TopicPageView.as_view(), name='topic'),
-    path('update/<int:page>', views.TopicUpdatePageView.as_view(), name='topic_update_page'),
+    path('get/<int:page>', views.TopicUpdatePageView.as_view(), name='topic_update_page'),
     path('detail/<slug:show_detail>', views.TopicDetailView.as_view(), name='topic_detail'),
     path('create/', views.TopicCreateView.as_view(), name='topic_create'),
     path('update/<int:pk>', views.TopicUpdateView.as_view(), name='topic_update'),
-    path('delete/<int:pk>', views.TopicDeleteView.as_view(), name='topic_delete'),
     path('update-comments/<int:pk>', views.create_comment, name='create_comment'),
     path('delete-comments/<int:pk>', views.delete_comment, name='delete_comments'),
     path('like_comment/<int:pk>', views.like_comment, name='like_comment'),

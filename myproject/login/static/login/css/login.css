@@ -1,86 +1,188 @@
-.form-container1 {
-
-    place-items: center;
-    align-items: center;
-    background-color: #5d5757;
-    height: 350px;
-    width: 400px;
-    position: absolute;
-    right: 575px;
-    border-radius: 10px;
-    padding: 30px;
-}
-
-.form-container1 button{
-    width: 100px;
-    height: 40px;
-    border-radius: 40px;
-    background-color: #372f2f;
-    border: none;
-    margin-top: 20px;
-    color: white;
-}
-
-.form-container1 h2 {
-    color: white;
-    text-align: center;
+.auth-wrapper {
+    display: flex;
     justify-content: center;
+    padding: 60px 20px;
+    top: -90px;
     position: relative;
-
-    top: 0px;
-    border-radius: 5px;
 }
 
-.form-wrapper input {
+.auth-card {
+    background: #262626;
+    padding: 40px;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.auth-card h2 {
+    color: #FAFAF9;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.auth-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    width: 100%;
+}
+
+.auth-form p {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 15px;
+    color: #A8A29E;
+    font-size: 14px;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 5px;
+    border-radius: 12px;
+    border: 1px solid #404040;
+    background: #333;
+    color: white;
+    outline: none;
+    box-sizing: border-box; /* Это предотвращает вылет за края */
     left: 0px;
-    top: 3px;
-    width: 300px;
-    height: 40px;
+    top: 0px;
 }
-.login-form,
-.register-form
- {
+
+.auth-form button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    background: #57534E;
+    border: none;
+    color: white;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.auth-form button:hover {
+    background: #78716C;
+}
+
+.form-links {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    gap: 10px;
 }
 
-.form-container2 {
-
-    place-items: center;
-    align-items: center;
-    background-color: #5d5757;
-    height: 550px;
-    width: 400px;
-    position: absolute;
-    right: 575px;
-    border-radius: 10px;
-    padding: 30px;
-}
-
-.form-container2 h2 {
-    color: white;
+.form-links p {
     text-align: center;
-    justify-content: center;
     position: relative;
-
-    top: 0px;
-    border-radius: 5px;
 }
 
-.form-container2 button{
-    width: 200px;
-    height: 40px;
-    border-radius: 40px;
-    background-color: #372f2f;
-    border: none;
-    margin-top: 20px;
+.form-links a {
+    color: #A8A29E;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.form-links a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.profile {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    gap: 50px;
+    align-items: flex-start; /* Вирівнюємо по верхньому краю */
+}
+
+.profile-info-side {
+    flex: 0 0 300px;
+    background: #181818;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid #333;
+    text-align: center;
+    position: sticky; /* Залишаємо профіль на місці при прокрутці */
+    top: 20px;
+}
+
+.profile-info-side img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover; /* Забезпечує правильне відображення зображення в колі */
+    margin-bottom: 15px;
+    border: 2px solid #00cfeb;
+}
+
+.avatar-letter {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00cfeb 0%, #007a8b 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    font-weight: bold;
     color: white;
+    margin: 0 auto 15px;
+    text-transform: uppercase; /* Великі літери для ініціалів */
 }
+
+.user-names {
+    color: #fff;
+    margin-bottom: 25px;
+}
+
+.user-names b {
+    display: block;
+    font-size: 1.3rem;
+}
+
+.user-names span {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.profile-info-side a {
+    display: block;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #252525;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.profile-info-side a:hover {
+    background: #333;
+}
+
+.profile-info-side a[href*="delete"] {
+    color: #ff4d4d;
+    background: rgba(255, 77, 77, 0.05);
+    border: 1px solid rgba(255, 77, 77, 0.2);
+}
+.profile-info-side a[href*="delete"]:hover {
+    background: rgba(255, 77, 77, 0.1);
+}
+
+.profile-topics-side {
+    flex: 1; /* Займає все вільне місце справа */
+}
+
+.htmx-indicator {
+    color: #00cfeb;
+    text-align: center;
+    padding: 20px;
+}
+
 

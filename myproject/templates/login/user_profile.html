@@ -2,25 +2,34 @@
 {% load static %}
 {% block title %}Мій профіль{% endblock %}
 {% block content %}
+    <div class="profile">
+        <div class="profile-info-side">
+            {% if user.photo %}
+                <img src="{{ user.photo.url }}">
+            {% else %}
+                <img src="{{ photo }}">
+                <div class="user-names">
+                    <b>{{ user.full_name }}</b>
+                    <span>{{ user.username }}</span>
+                </div>
+            {% endif %}
+            <a href="{% url 'saves' %}">Збережені</a>
+            <a href="{% url 'update_profile' %}">Оновити профіль</a>
+            <a href="{% url 'delete_profile' %}">Видалити профіль</a>
+            <a href="{% url 'logout' %}">Вийти</a>
+        </div>
+    </div>
 
-    {% if user.photo %}
-        <img src="{{ user.photo.url }}">
-    {% else %}
-        <img src="{{ photo }}">
-        {{ user.full_name }}
-        {{ user.username }}
-    {% endif %}
-    <a href="{% url 'saves' %}">Збережені</a>
-    <a href="{% url 'update_profile' %}">Оновити профіль</a>
-    <a href="{% url 'delete_profile' %}">Видалити профіль</a>
-    <a href="{% url 'logout' %}">Вийти</a>
-    <div id="topics-user"></div>
-    {% if topics %}
-    <div id="loader" class="htmx-indicator">Завантаження...</div>
-    <div hx-get="{% url 'topic_update' page %}"
-         hx-target="#topics-user"
-         hx-indicator="#loader"
-         hx-swap="beforeend"
-         hx-trigger="revealed"></div>
-    {% endif %}
+
+     <div class="profile-topics-side">
+        {% if topics %}
+            <div id="topics-user"></div>
+            <div id="loader" class="htmx-indicator">Завантаження...</div>
+            <div hx-get="{% url 'topic_update_user' page %}"
+                 hx-target="#topics-user"
+                 hx-indicator="#loader"
+                 hx-swap="beforeend"
+                 hx-trigger="load"></div>
+        {% endif %}
+    </div>
 {% endblock %}

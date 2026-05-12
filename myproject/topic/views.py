@@ -12,7 +12,8 @@ from .utils import DataMixin
 
 class TopicPageView(TemplateView):
     template_name = 'topic/main.html'
-    extra_context = {'page': 0}
+    extra_context = {'page': 0,
+                     'topics': Topic.objects.all()}
 
 
 class TopicUpdatePageView(View):
@@ -71,11 +72,6 @@ class TopicUpdateView(UpdateView):
     template_name = 'topic/update.html'
     model = Topic
     form_class = TopicCreateForm
-    success_url = reverse_lazy('topic')
-
-
-class TopicDeleteView(DeleteView):
-    model = Topic
     success_url = reverse_lazy('topic')
 
 

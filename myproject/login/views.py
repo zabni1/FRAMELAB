@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import render, redirect, resolve_url
+from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .forms import ProfileForm, RegisterForm, ProfileUserForm
@@ -75,17 +75,17 @@ def profile(request, username):
     photo = settings.DEFAULT_USER_IMAGE
     page = 0
     if request.user.username == username:
-        user = get_user_model().objects.get(username=username, active_status=True)
+        user = get_object_or_404(get_user_model(),username=username, active_status=True)
         topics = Topic.objects.filter(
             email=request.user.email)
         return render(request, 'login/user_profile.html', {'user': user, 'topics': topics,
                                                                                 'page': page,'photo': photo})
     else:
-        user = get_user_model().objects.get(username=username, active_status=True)
+        user = get_object_or_404(get_user_model(), username=username, active_status=True)
         topics = Topic.objects.filter(
             email=request.user.email)
     return render(request, 'login/profile.html', {'user': user, 'topics': topics,
-                                                                       'page': page, 'photo': photo, })
+                                                                       'page': page, 'photo': photo})
 
 
 @login_required(login_url='login')
@@ -110,11 +110,11 @@ def topic_update(request, page):
         topics = topics_qs[page:page + 9]
 
         if page + 9 >= topics_qs.count():
-            return render(request, 'partials/saves_update_last.html', {
+            return render(request, 'partials/topic_user_update_last.html', {
                 'topics': topics
             })
         else:
-            return render(request, 'partials/saves_update.html', {
+            return render(request, 'partials/topic_user_update.html', {
                 'topics': topics,
                 'page': page + 9
             })
@@ -123,10 +123,11 @@ def topic_update(request, page):
 @login_required(login_url='login')
 def topic_delete(request, topic_id):
     if request.headers.get('HX-Request'):
-        delete = Saved.objects.get(id=topic_id)
+        delete = Topic.objects.get(id=topic_id)
         delete.delete()
         topics = Topic.objects.filter(email=request.user.email)
-        return render(request, 'login/topics.html', {'topics': topics})
+        return render(request, 'partials/topic_user_update.html', {'topics': topics[:9],
+                                                                                        'page': 9})
     return redirect('login')
 
 @login_required(login_url='login')
@@ -165,7 +166,7 @@ def saves_delete(request, get_id):
         delete = Saved.objects.get(id=get_id)
         delete.delete()
         saved = Saved.objects.filter(email=request.user.email).select_related('detail')
-        return render(request, 'partials/saves_delete.html', {'saved': saved})
+        return render(request, 'partials/saves_update.html', {'saved': saved[:9], 'page': 9})
     return redirect('login')
 
 

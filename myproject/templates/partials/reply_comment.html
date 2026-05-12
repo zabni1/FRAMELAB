@@ -1,53 +1,62 @@
 {% for m in replies %}
-<div>
-    {% if m.reply_to %}
-    <a href="{% url 'profile' m.username %}">{{ m.username }}</a>><a href="{% url 'profile' m.reply_to %}">{{ m.reply_to }}</a>
-    {% else %}
-    <a href="{% url 'profile' m.username %}">{{ m.username }}</a>
-    {% endif %}
-    <h2>{{ m.reply }}</h2>
-    <div id="like-reply-{{ m.pk }}">
-        {% if user.is_authenticated %}
-                {% if m.id in likes_rep %}
-                    <button hx-get="{% url 'delete_like_on_reply' m.pk %}"
-                            hx-target="#like-reply-{{ m.pk }}"
-                            hx-swap="innerHTML">Прибрати лайк {{ m.all_likes }}</button>
-                {% elif m.id not in likes_rep %}
-                    <button hx-get="{% url 'like_reply' m.pk %}"
-                            hx-target="#like-reply-{{ m.pk }}"
-                            hx-swap="innerHTML">Вподобати {{ m.all_likes }}</button>
-                {% endif %}
+<div class="comment-card reply-item">
+    <div class="comment-meta">
+        {% if m.reply_to %}
+            <a href="{% url 'profile' m.username %}" class="comment-author">{{ m.username }}</a>
+            <span class="reply-arrow">▶️</span>
+            <a href="{% url 'profile' m.reply_to %}" class="comment-author">{{ m.reply_to }}</a>
         {% else %}
+            <a href="{% url 'profile' m.username %}" class="comment-author">{{ m.username }}</a>
+        {% endif %}
+    </div>
+
+    <h2 class="comment-text">{{ m.reply }}</h2>
+
+    <div class="comment-actions">
+        <div id="like-reply-{{ m.pk }}" class="inline-action">
+            {% if user.is_authenticated %}
+                <button hx-get="{% if m.id in likes_rep %}{% url 'delete_like_on_reply' m.pk %}{% else %}{% url 'like_reply' m.pk %}{% endif %}"
+                        hx-target="#like-reply-{{ m.pk }}"
+                        hx-swap="innerHTML"
+                        class="{% if m.id in likes_rep %}liked{% endif %}">
+                    {% if m.id in likes_rep %}Прибрати лайк{% else %}Вподобати{% endif %} {{ m.all_likes }}
+                </button>
+            {% else %}
                  <form action="{% url 'login' %}">
                      <button>Вподобати {{ m.all_likes }}</button>
                  </form>
-        {% endif %}
-    </div>
-    {% if user.is_authenticated %}
-            <button hx-get="{% url 'get_input_for_reply_on_reply' pk m.username %}"
+            {% endif %}
+        </div>
+
+        {% if user.is_authenticated %}
+            <button class="inline-action"
+                    hx-get="{% url 'get_input_for_reply_on_reply' pk m.username %}"
                     hx-target="#reply-on-reply-{{ m.pk }}"
                     hx-swap="innerHTML">Відповісти</button>
-    {% else %}
-            <form action="{% url 'login' %}">
-                <button class="" type="submit">Відповісти</button>
+        {% else %}
+            <form action="{% url 'login' %}" class="inline-action">
+                <button type="submit">Відповісти</button>
             </form>
-    {% endif %}
+        {% endif %}
+
+        {% if m.pk in reply_user %}
+            <button class="inline-action delete-btn"
+                    hx-get="{% url 'delete_reply' m.pk %}"
+                    hx-target="#reply-{{ m.comment.pk }}"
+                    hx-swap="innerHTML">Видалити</button>
+        {% endif %}
+    </div>
+
     <div id="reply-on-reply-{{ m.pk }}"></div>
-    {% if m.pk in reply_user %}
-    <button hx-get="{% url 'delete_reply' m.pk %}"
-            hx-target="#reply-{{ m.comment.pk }}"
-            hx-swap="innerHTML">Видалити</button>
-    {% endif %}
 </div>
 {% endfor %}
 
-<div id="reply-comment-{{ pk }}"
-     hx-swap-oob="true">
-        <input type="text"
-               name="reply"
-               class="reply-input"
-               placeholder="Введіть відповідь"
-               hx-get="{% url 'create_reply' pk %}"
-               hx-target="#reply-{{ pk }}"
-               hx-swap="innerHTML">
+<div id="reply-comment-{{ pk }}" hx-swap-oob="true">
+    <input type="text"
+           name="reply"
+           class="comments-input reply-field"
+           placeholder="Введіть відповідь"
+           hx-get="{% url 'create_reply' pk %}"
+           hx-target="#reply-{{ pk }}"
+           hx-swap="innerHTML">
 </div>

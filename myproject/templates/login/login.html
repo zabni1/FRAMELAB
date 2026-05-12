@@ -2,16 +2,18 @@
 {% load static %}
 {% block title %}Вхід{% endblock %}
 {% block content %}
-
-<div class="form-container1">
-    <div class="form-wrapper">
+<div class="auth-wrapper">
+    <div class="auth-card">
         <h2>Вхід</h2>
-        <form method="POST" class="login-form">
+
+        <form method="POST" class="auth-form">
             {% csrf_token %}
-             {{ form.as_p }}
-            <button type="submit">Вхід</button>
-            <a href="{% url 'signup' %}">Зареєструватися</a>
-            <a href="{% url 'password_reset' %}">Забув пароль?</a>
+            {{ form.as_p }}
+            <button type="submit">Увійти</button>
+            <div class="form-links">
+                <a href="{% url 'signup' %}">Зареєструватися</a>
+                <a href="{% url 'password_reset' %}">Забув пароль?</a>
+            </div>
         </form>
     </div>
 </div>

@@ -1,25 +1,39 @@
-<div id="topics">
-    <div>
-        {% for a in saved %}
-        <a href="{{ a.get_absolute_url }}">
-            <div>
-                <img src="{{ a.detail.photo.url }}">
-                <h3>{{ a.detail.name }}</h3>
-                <button hx-get="{% url 'topic_update' a.id %}"
+<div id="topics" class="topics-list-container">
+    <div class="saved-topics-grid">
+        {% for a in topics %}
+        <div class="topic-preview-card saved-card">
+            <a href="{{ a.get_absolute_url }}" class="topic-card-link">
+                <div class="saved-topic-header">
+                    <img src="{{ a.detail.photo.url }}" class="saved-topic-img">
+                    <h3 class="saved-topic-title">{{ a.detail.name }}</h3>
+                </div>
+            </a>
+            <div class="comment-actions saved-controls">
+                <button class="inline-action"
+                        hx-get="{% url 'topic_update' a.pk %}"
                         hx-target="#topics"
                         hx-swap="innerHTML">Редагувати</button>
-                <button hx-get="{% url 'topic_delete' a.id %}"
+                <button class="inline-action delete-btn"
+                        hx-get="{% url 'topic_delete' a.id %}"
                         hx-target="#topics"
                         hx-swap="innerHTML">Видалити</button>
             </div>
-        </a>
+        </div>
         {% endfor %}
     </div>
+
+    <div id="topics-user"></div>
+
+    <div id="loader" class="htmx-indicator loader-style">
+        <div class="spinner"></div>
+        <span>Завантаження...</span>
+    </div>
+
+    <div hx-get="{% url 'topic_update_user' page %}"
+         hx-target="#topics-user"
+         hx-indicator="#loader"
+         hx-swap="beforeend"
+         hx-trigger="revealed"
+         class="scroll-trigger">
+    </div>
 </div>
-<div id="topics-user"></div>
-<div id="loader" class="htmx-indicator">Завантаження...</div>
-<div hx-get="{% url 'topic_update' page %}"
-     hx-target="#topics-user"
-     hx-indicator="#loader"
-     hx-swap="beforeend"
-     hx-trigger="revealed"></div>

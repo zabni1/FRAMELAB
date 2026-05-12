@@ -1,10 +1,13 @@
-<div>
+<div class="topics-list-container">
     {% for p in topics %}
-    <a href="{{ p.get_absolute_url }}">
-    <div>
-        <h2>Автор: {{ p.username }}</h2>
-        <h1>{{ p.title }}</h1>
-        <h3>Категорія: {{ p.category }}</h3>
-    </div></a>
+    <a href="{{ p.get_absolute_url }}" class="topic-card-link">
+        <div class="topic-preview-card">
+            <div class="meta-column">
+                <span class="author-badge">Автор: {{ p.username }}</span>
+                <span class="category-text">Категорія: {{ p.category }}</span>
+            </div>
+            <h1 class="topic-preview-title">{{ p.name }}</h1>
+        </div>
+    </a>
     {% endfor %}
 </div>

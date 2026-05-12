@@ -2,11 +2,16 @@
 {% load static %}
 {% block title %}Створити тему{% endblock %}
 {% block content %}
-<form method="POST">
-    <div class="create_topic">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Створити</button>
+<div id="topic-page-container">
+    <div class="topic-preview-card">
+        <h1 class="topic-header-title">Нова тема</h1>
+        <form method="POST" class="create-topic-form">
+            {% csrf_token %}
+            <div class="form-body">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="submit-topic-btn">Створити</button>
+        </form>
     </div>
-</form>
+</div>
 {% endblock %}

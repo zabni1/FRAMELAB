@@ -1,6 +1,6 @@
 <input type="text"
        name="reply"
-       class="reply-input"
+       class="comments-input reply-field"
        placeholder="Введіть відповідь"
        hx-get="{% url 'create_reply_on_reply' pk username %}"
        hx-target="#reply-{{ pk }}"

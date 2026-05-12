@@ -6,22 +6,37 @@
 <div id="main-content"
      hx-swap-oob="true">
         <div class="content-wrapper">
+              <section class="hero-section">
+                    <h1 class="main-title">Твій шлях у світ <span>програмування</span></h1>
+                    <p class="subtitle">Опановуй мови, фреймворки та бібліотеки на інтерактивній платформі FRAMELAB.</p>
 
-            <div class="txt1">
-                <p><b>Що таке LOGO?</b></p>
-                <p>LOGO — це онлайн-платформа для вивчення мов програмування. Сайт створений для тих, хто хоче почати свій шлях у програмуванні або покращити вже наявні знання.</p>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="icon">🚀</div>
+                            <h3>Що таке FRAMELAB?</h3>
+                            <p>Це сучасна екосистема для навчання, де теорія поєднується з практикою.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="icon">📚</div>
+                            <h3>Чому ми?</h3>
+                            <p>Вивчаємо не лише синтаксис, а й популярні бібліотеки та фреймворки.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="icon">⏰</div>
+                            <h3>Твій темп</h3>
+                            <p>Навчайся у зручний час без дедлайнів та стресу.</p>
+                        </div>
+                    </div>
+              </section>
 
-                <p><b>Що ви зможете вивчити на LOGO?</b></p>
-                <p>На платформі ви зможете вивчати різні мови програмування та технології, які використовуються для створення сучасних сайтів і програм.</p>
-
-                <p><b>Чому варто обрати LOGO?</b></p>
-                <p>LOGO допомагає зробити навчання програмуванню простим та доступним. Ви можете навчатися у зручний для себе час.</p>
-            </div>
 
                 <div class="grid-container">
                     {% for a in languages %}
                     <div class="grid-item">
-                        <a href="{{ a.get_absolute_url }}">{{ a.name }}</a>
+                        <a href="{{ a.get_absolute_url }}">
+                        <img src="{{ a.photo.url }}" class="lang-icon">
+                         <span>{{ a.name }}</span>
+                        </a>
                     </div>
                     {% endfor %}
                 </div>

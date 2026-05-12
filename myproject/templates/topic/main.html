@@ -2,20 +2,33 @@
 {% load static %}
 {% block title %}Теми{% endblock %}
 {% block content %}
-    <div id="topic-content"></div>
-    <div id="loader" class="htmx-indicator">Завантаження...</div>
-    <div hx-get="{% url 'topic_update_page' page %}"
-         hx-target="#topic-content"
-         hx-indicator="#loader"
-         hx-swap="beforeend"
-         hx-trigger="revealed"></div>
-    {% if user.is_authenticated %}
-    <div class="topic">
-        <a href="{% url 'topic_create' %}">Створити тему</a>
+    <div id="topic-page-container">
+        {% if not topics %}
+            <h1 class="tems">
+                Вітаємо, {{ request.user.username }}! Тут ви можете переглянути всі теми, створені користувачами, та створити свою власну тему для обговорення.
+            </h1>
+        {% endif %}
+
+        <div class="create-topic-wrapper">
+            {% if user.is_authenticated %}
+                <a href="{% url 'topic_create' %}" class="main-create-btn">Створити тему</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="main-create-btn">Створити тему</a>
+            {% endif %}
+        </div>
+
+        <div id="topic-content"></div>
+
+        <div id="loader" class="htmx-indicator loader-style">
+            <div class="spinner"></div>
+            <span>Завантаження тем...</span>
+        </div>
+
+        <div hx-get="{% url 'topic_update_page' page %}"
+             hx-target="#topic-content"
+             hx-indicator="#loader"
+             hx-swap="beforeend"
+             hx-trigger="revealed">
+        </div>
     </div>
-    {% else %}
-    <div class="topic">
-        <a href="{% url 'login' %}">Створити тему</a>
-    </div>
-    {% endif %}
 {% endblock %}
