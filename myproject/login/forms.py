@@ -69,6 +69,7 @@ class RegisterForm(forms.ModelForm):
         return email
 
     def clean_password(self):
+        username = self.cleaned_data['username']
         password = self.cleaned_data['password']
         if len(password) < 6:
             raise forms.ValidationError("Такий пароль занадто короткий!")
@@ -76,41 +77,31 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError("Введіть пароль!")
         elif not any(char.isalpha() for char in password):
             raise forms.ValidationError("Введіть літери!")
+        elif username == password:
+            raise forms.ValidationError('Пароль має не співпадати з логіном!')
         return password
 
 
 
 
 class ProfileUserForm(forms.ModelForm):
-    email = forms.CharField(disabled=True, label="Email",
-                                widget=forms.TextInput(attrs={'class': 'form-control'}))
-
+    username = forms.CharField(label='Логін', widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                            'placeholder': 'Логін'}))
     class Meta:
         model = get_user_model()
-        fields = ('email','username', 'full_name' , 'password','photo')
+        fields = ('username', 'full_name' , 'photo')
         labels = {
             'full_name': "Прізвище та ім'я",
-            'username': 'Логін',
-            'password': 'Пароль',
             'photo': ''
         }
 
         widgets = {
             'full_name': forms.TextInput(attrs={'class': 'form-control','placeholder':"Прізвище та ім'я"}),
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логін'}),
-            'password': forms.TextInput(attrs={'class': 'form-control','placeholder':'Пароль'}),
         }
+
 
     def clean_username(self):
         username = self.cleaned_data['username']
         if get_user_model().objects.filter(username=username).exists():
             raise forms.ValidationError("Такий логін вже існує!")
         return username
-
-    def clean_password(self):
-        password = self.cleaned_data['password']
-        if get_user_model().objects.filter(password=password).exists():
-            return forms.ValidationError("Створіть новий пароль!")
-        elif len(password) < 6:
-            raise forms.ValidationError("Такий пароль занадто короткий!")
-        return password

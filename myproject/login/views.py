@@ -34,7 +34,9 @@ def signup_confirm(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
             current_site = get_current_site(request)
             domain = current_site.domain
             user_pk_bytes = force_bytes(user.pk)
@@ -89,14 +91,21 @@ def profile(request, username):
 
 
 @login_required(login_url='login')
-def update_profile(request):
-    form = ProfileUserForm(instance=request.user)
+def update_profile(request, username):
+    user = get_user_model().objects.get(username=username)
     photo = settings.DEFAULT_USER_IMAGE
-    return render(request, 'login/update_profile', {'form': form, 'photo': photo})
+    if request.method == 'POST':
+        form = ProfileUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile', username=username)
+    else:
+        form = ProfileUserForm(instance=request.user)
+    return render(request, 'login/update_profile.html', {'form': form, 'photo': photo, 'user': user})
 
 @login_required(login_url='login')
-def delete_profile(request):
-    user = get_user_model().objects.get(id=request.user.id)
+def delete_profile(request, username):
+    user = get_user_model().objects.get(username=username)
     user.delete()
     return redirect('home')
 

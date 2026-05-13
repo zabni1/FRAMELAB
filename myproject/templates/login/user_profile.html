@@ -14,8 +14,8 @@
                 </div>
             {% endif %}
             <a href="{% url 'saves' %}">Збережені</a>
-            <a href="{% url 'update_profile' %}">Оновити профіль</a>
-            <a href="{% url 'delete_profile' %}">Видалити профіль</a>
+            <a href="{% url 'update_profile' user.username %}">Оновити профіль</a>
+            <a href="{% url 'delete_profile' user.username %}">Видалити профіль</a>
             <a href="{% url 'logout' %}">Вийти</a>
         </div>
     </div>
