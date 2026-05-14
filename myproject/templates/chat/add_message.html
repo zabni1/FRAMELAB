@@ -1,4 +1,5 @@
-
+<div id="messages"
+     hx-swap-oob="true">
 
     <div class="messages">
             {% for a in messages %}
@@ -16,20 +17,21 @@
          hx-trigger="load"></div>
 
 
-<div class="chat-input"
-     id="chat-input"
-     hx-swap-oob="true">
-    <form hx-post="{% url 'add_message'  %}"
-          hx-target="#messages"
-          hx-swap="beforeend">
-          {% csrf_token %}
-          <input name="message"
-                 type="text"
-                 id="chat_input"
-                 maxlength="200"
-                 readonly>
+    <div class="chat-input"
+         id="chat-input"
+         hx-swap-oob="true">
+        <form hx-post="{% url 'add_message'  %}"
+              hx-target="#messages"
+              hx-swap="beforeend">
+              {% csrf_token %}
+              <input name="message"
+                     type="text"
+                     id="chat_input"
+                     maxlength="200"
+                     readonly>
 
-        <button id="chat_button" type="submit">Відправити</button>
-    </form>
+            <button id="chat_button" type="submit">Відправити</button>
+        </form>
 
+    </div>
 </div>

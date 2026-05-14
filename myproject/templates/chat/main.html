@@ -13,9 +13,11 @@
      hx-swap-oob="true">
 <div class="chat" id="chat"></div>
 </div>
-<div id="messages"></div>
+<div id="messages"
+     hx-swap-oob="true"></div>
 {% else %}
-    <div id="messages"><h1>Вітаємо, це наша ШІ підтримка, напишіть ваш перший запит!</h1></div>
+    <div id="messages"
+         hx-swap-oob="true"><h1>Вітаємо, це наша ШІ підтримка, напишіть ваш перший запит!</h1></div>
 {% endif %}
 <div class="chat-input"
      id="chat-input"
