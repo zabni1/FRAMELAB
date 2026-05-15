@@ -27,7 +27,7 @@
         {% if messages.count > 0 %}
         <button class="clear_chat"
                 hx-get="{% url 'clear_chat' %}"
-                hx-target="#chat"
+                hx-target="#messages"
                 hx-swap="innerHTML">Очистити чат</button>
         {% endif %}
     </div>

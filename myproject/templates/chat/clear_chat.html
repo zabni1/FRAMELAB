@@ -1,5 +1,23 @@
-<div id="messages"
-     hx-swap-oob="true"><h1>Вітаємо, це наша ШІ підтримка, напишіть ваш перший запит!</h1></div>
+
+<h1>Вітаємо, це наша ШІ підтримка, напишіть ваш перший запит!</h1>
+
 <div id="whole_chat"
      hx-swap-oob="true"></div>
 
+<div class="chat-input"
+     id="chat-input"
+     hx-swap-oob="true">
+    <form hx-post="{% url 'add_message'  %}"
+          hx-target="#messages"
+          hx-swap="innerHTML">
+           {% csrf_token %}
+          <input name="message"
+                 type="text"
+                 placeholder="    Введіть питання"
+                 id="chat_input"
+                 maxlength="200">
+
+        <button id="chat_button" type="submit">Відправити</button>
+    </form>
+
+</div>
