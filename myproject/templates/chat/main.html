@@ -3,7 +3,8 @@
 {% block title %}Чат{% endblock %}
 {% block content %}
 {% if messages %}
-<div id="loader" class="htmx-indicator">Завантаження...</div>
+<div class="all-messages-chat">
+<div id="loader" class="htmx-indicator chat-loader"><span class="spinner"></span> Завантаження...</div>
 <div hx-get="{% url 'get_messages' page %}"
      hx-target="#chat"
      hx-indicator="#loader"
@@ -11,21 +12,26 @@
      hx-trigger="load"></div>
 <div id="whole_chat"
      hx-swap-oob="true">
-<div class="chat" id="chat"></div>
+<div class="chat chat-messages-box" id="chat"></div>
 </div>
 {% endif %}
-<div id="messages">
+<div id="messages" class="chat-messages-container">
     {% if not messages %}
-        <h1>Вітаємо, це наша ШІ підтримка, напишіть ваш перший запит!</h1>
+        <div class="chat-welcome">
+            <div class="welcome-icon">🤖</div>
+            <h1>Вітаємо, це наша <span class="accent-text">ШІ підтримка</span>, напишіть ваш перший запит!</h1>
+        </div>
     {% endif %}
 </div>
-<div class="chat-input"
+</div>
+<div class="chat-input chat-input-card"
      id="chat-input"
      hx-swap-oob="true">
     {% if messages %}
     <form hx-post="{% url 'add_message'  %}"
           hx-target="#messages"
-          hx-swap="beforeend">
+          hx-swap="beforeend"
+          class="chat-form">
            {% csrf_token %}
           <input name="message"
                  type="text"
@@ -33,33 +39,37 @@
                  id="chat_input"
                  maxlength="200">
 
-        <button id="chat_button" type="submit">Відправити</button>
+        <button id="chat_button" type="submit" >Відправити</button>
     </form>
     {% else %}
-    <form hx-post="{% url 'add_message'  %}"
+    <div class="chat-input chat-input-card"
+         id="chat-input"
+         hx-swap-oob="true">
+    <form hx-post="{% url 'add_message' %}"
           hx-target="#messages"
-          hx-swap="innerHTML">
+          hx-swap="innerHTML"
+          class="chat-form">
           {% csrf_token %}
           <input name="message"
                  type="text"
-                 placeholder="    Введіть питання"
+                 placeholder="Введіть питання"
                  id="chat_input"
                  maxlength="200">
-
-        <button id="chat_button" type="submit">Відправити</button>
+        <button id="chat_button" type="submit" >Відправити</button>
     </form>
+    </div>
     {% endif %}
 
     {% if messages.count > 0 %}
-    <button class="clear_chat"
+    <button class="clear_chat clear-chat-btn"
             hx-get="{% url 'clear_chat' %}"
             hx-target="#messages"
             hx-swap="innerHTML">Очистити чат</button>
     {% endif %}
 </div>
 
-{% endblock %}
-{% block script %}
+
+<script>
 {% if messages.count > 6 %}
 window.onload = function() {
     window.scrollTo(0, document.body.scrollHeight);
@@ -71,4 +81,5 @@ input.oninput=function(){
     if(this.value==="") return button.style.display="none"
     button.style.display="inline-block"
 }
+</script>
 {% endblock %}

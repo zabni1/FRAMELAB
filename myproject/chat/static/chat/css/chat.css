@@ -1,3 +1,8 @@
+.all-messages-chat{
+    position: relative;
+    bottom: 50px;
+}
+
 .chat-messages-container,
 .chat-messages-list,
 .chat-messages-box {
@@ -135,7 +140,7 @@
 }
 
 #chat_button {
-    display: inline-block !important;
+    display: none;
     background: transparent;
     color: #00d2ff;
     border: 1px solid #00d2ff;
@@ -147,6 +152,7 @@
     transition: all 0.3s ease;
     box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
     white-space: nowrap;
+
 }
 
 #chat_button:hover {

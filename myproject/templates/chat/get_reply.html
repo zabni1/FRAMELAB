@@ -1,35 +1,36 @@
-
-    <div class="messages">
+<div class="messages chat-messages-list">
             {% for a in messages %}
                 {% if a.user1 == request.user.pk %}
-                <h5 class="message user_message">{{ a.message }}</h5>
+                <h5 class="message user_message user-bubble">{{ a.message }}</h5>
                 {% else %}
-                <h5 class="message">{{ a.message }}</h5>
+                <h5 class="message ai-bubble">{{ a.message }}</h5>
                 {% endif %}
             {% endfor %}
-    </div>
+</div>
 
-    <div class="chat-input chat-input-card"
-         hx-swap-oob="true">
-        <form hx-post="{% url 'add_message'  %}"
-              hx-target="#messages"
-              hx-swap="beforeend">
-              {% csrf_token %}
-              <input name="message"
-                     type="text"
-                     placeholder="    Введіть питання"
-                     id="chat_input"
-                     maxlength="200">
+<div class="chat-input chat-input-card"
+     id="chat-input"
+     hx-swap-oob="true">
+    <form hx-post="{% url 'add_message'  %}"
+          hx-target="#messages"
+          hx-swap="beforeend"
+          class="chat-form">
+          {% csrf_token %}
+          <input name="message"
+                 type="text"
+                 placeholder="    Введіть питання"
+                 id="chat_input"
+                 maxlength="200">
 
-            <button id="chat_button" type="submit">Відправити</button>
-        </form>
-        {% if messages.count > 0 %}
-        <button class="clear_chat"
-                hx-get="{% url 'clear_chat' %}"
-                hx-target="#messages"
-                hx-swap="innerHTML">Очистити чат</button>
-        {% endif %}
-    </div>
+        <button id="chat_button" type="submit" style="display: none;">Відправити</button>
+    </form>
+    {% if messages.count > 0 %}
+    <button class="clear_chat clear-chat-btn"
+            hx-get="{% url 'clear_chat' %}"
+            hx-target="#messages"
+            hx-swap="innerHTML">Очистити чат</button>
+    {% endif %}
+</div>
 
 <script>
 {% if messages.count > 6 %}
@@ -44,4 +45,3 @@ input.oninput=function(){
     button.style.display="inline-block"
 }
 </script>
-

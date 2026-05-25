@@ -4,7 +4,7 @@
      hx-indicator="#loader"
      hx-swap="afterend"
      hx-trigger="revealed"></div>
-<div class="messages chat-messages-list" id="messages">
+<div class="messages chat-messages-list">
             {% for a in messages %}
                 {% if a.user1 == request.user.pk %}
                 <h5 class="message user_message user-bubble">{{ a.message }}</h5>

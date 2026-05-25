@@ -1,4 +1,4 @@
-<div class="messages chat-messages-list" id="messages">
+<div class="messages chat-messages-list">
         {% for a in messages %}
             {% if a.user1 == request.user.pk %}
             <h5 class="message user_message user-bubble">{{ a.message }}</h5>
@@ -10,10 +10,11 @@
 
 <div hx-get="{% url 'get_message' message %}"
      hx-target="#messages"
-     hx-swap="beforeend"
+     hx-swap="afterend"
      hx-trigger="load"></div>
 
 <div class="chat-input chat-input-card"
+     id="chat-input"
      hx-swap-oob="true">
     <form hx-post="{% url 'add_message'  %}"
           hx-target="#messages"
@@ -27,6 +28,6 @@
                  placeholder="Зачекайте, ШІ генерує відповідь..."
                  readonly>
 
-        <button id="chat_button" type="submit" style="display: none;">Відправити</button>
+        <button id="chat_button" type="submit">Відправити</button>
     </form>
 </div>
