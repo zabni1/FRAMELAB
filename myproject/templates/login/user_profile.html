@@ -8,20 +8,18 @@
                 <img src="{{ user.photo.url }}">
             {% else %}
                 <img src="{{ photo }}">
+            {% endif %}
                 <div class="user-names">
                     <b>{{ user.full_name }}</b>
                     <span>{{ user.username }}</span>
                 </div>
-            {% endif %}
+
             <a href="{% url 'saves' %}">Збережені</a>
             <a href="{% url 'update_profile' user.username %}">Оновити профіль</a>
             <a href="{% url 'delete_profile' user.username %}">Видалити профіль</a>
             <a href="{% url 'logout' %}">Вийти</a>
         </div>
-    </div>
-
-
-     <div class="profile-topics-side">
+        <div class="profile-topics-side">
         {% if topics %}
             <div id="topics-user"></div>
             <div id="loader" class="htmx-indicator">Завантаження...</div>
@@ -32,4 +30,8 @@
                  hx-trigger="load"></div>
         {% endif %}
     </div>
+    </div>
+
+
+
 {% endblock %}

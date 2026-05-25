@@ -1,15 +1,18 @@
-
-<h1>Вітаємо, це наша ШІ підтримка, напишіть ваш перший запит!</h1>
+<div class="chat-welcome">
+    <div class="welcome-icon">🤖</div>
+    <h1>Вітаємо, це наша <span class="accent-text">ШІ підтримка</span>, напишіть ваш перший запит!</h1>
+</div>
 
 <div id="whole_chat"
      hx-swap-oob="true"></div>
 
-<div class="chat-input"
+<div class="chat-input chat-input-card"
      id="chat-input"
      hx-swap-oob="true">
     <form hx-post="{% url 'add_message'  %}"
           hx-target="#messages"
-          hx-swap="innerHTML">
+          hx-swap="innerHTML"
+          class="chat-form">
            {% csrf_token %}
           <input name="message"
                  type="text"
@@ -17,7 +20,20 @@
                  id="chat_input"
                  maxlength="200">
 
-        <button id="chat_button" type="submit">Відправити</button>
+        <button id="chat_button" type="submit" style="display: none;">Відправити</button>
     </form>
-
 </div>
+
+<script>
+{% if messages.count > 6 %}
+window.onload = function() {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+{% endif %}
+button=document.querySelector("#chat_button")
+input=document.querySelector("#chat_input")
+input.oninput=function(){
+    if(this.value==="") return button.style.display="none"
+    button.style.display="inline-block"
+}
+</script>

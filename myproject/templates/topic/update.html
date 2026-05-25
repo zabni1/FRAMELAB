@@ -2,9 +2,128 @@
 {% load static %}
 {% block title %}Оновити тему{% endblock %}
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Зберігти</button>
-</form>
+<div class="update-profile-container">
+    <form method="POST" class="update-profile-card">
+        {% csrf_token %}
+
+        <div class="form-fields">
+            {{ form.as_p }}
+        </div>
+
+        <button type="submit" id="save_profile_button">Зберегти</button>
+    </form>
+</div>
 {% endblock %}
+
+<style>
+    .update-profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 140px);
+    padding: 40px 20px;
+}
+
+.update-profile-card {
+    background: rgba(35, 29, 26, 0.9);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 550px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-fields {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-fields p {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    width: 100%;
+}
+
+.form-fields label {
+    color: #9e9591;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding-left: 4px;
+}
+
+.form-fields input[type="text"],
+.form-fields input[type="email"],
+.form-fields input[type="password"],
+.form-fields input[type="number"],
+.form-fields textarea,
+.form-fields select {
+    width: 100%;
+    background: #1a1513;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 12px 16px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-fields textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-fields input:focus,
+.form-fields textarea:focus,
+.form-fields select:focus {
+    border-color: #00d2ff;
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+    background: #231d1a;
+}
+
+#save_profile_button {
+    background: transparent;
+    color: #00d2ff;
+    border: 1px solid #00d2ff;
+    padding: 12px 32px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+    width: 100%;
+    text-align: center;
+}
+
+#save_profile_button:hover {
+    background: #00d2ff;
+    color: #1a1513;
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
+}
+
+.helptext {
+    color: #7a706c;
+    font-size: 0.8rem;
+    padding-left: 4px;
+    margin-top: -4px;
+}
+
+.errorlist {
+    color: #ff6b6b;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+}
+</style>

@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="{% static 'topic/css/topics.css' %}">
 </head>
 <body>
-    <div id='layout'
-         class="">
+    <div id='layout'>
         <header class="container">
             <span class="logo"><a href="{% url 'home' %}"> FrameLab </a></span>
 
@@ -30,10 +29,11 @@
                        hx-trigger="keyup changed delay:500ms">
                 <ul>
                     <li class="active"><a href="{% url 'home' %}">Головна</a></li>
-                    <li><a href="#footer">Про нас</a></li>
-                    <li><a href="{% url 'topic' %}">Теми</a></li>
-                    <li><a href="{% url 'chat' %}">Чат</a></li>
-                    <li><a hx-get="{% url 'translate' %}"
+                    <li class="active"><a href="#footer">Про нас</a></li>
+                    <li class="active"><a href="{% url 'topic' %}">Гілки</a></li>
+                    <li class="active"><a href="{% url 'chat' %}">AI-чат</a></li>
+                    <li class="active"><a
+                           hx-get="{% url 'translate' %}"
                            hx-target="#layout"
                            hx-swap="innerHTML"><img src="{% static 'main/img/chinese.png' %}" alt="User"></a></li>
                     {% if user.is_authenticated %}

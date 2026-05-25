@@ -2,17 +2,17 @@
 {% load static %}
 {% block title %}Вхід{% endblock %}
 {% block content %}
-<div class="auth-wrapper">
-    <div class="auth-card">
-        <h2>Вхід</h2>
+<div class="auth-wrapper page-centered-container">
+    <div class="auth-card glass-auth-card">
+        <h2>Вхід у <span class="accent-text">FRAMELAB</span></h2>
 
-        <form method="POST" class="auth-form">
+        <form method="POST" class="auth-form custom-form">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Увійти</button>
+            <button type="submit" id="auth_button">Увійти</button>
             <div class="form-links">
-                <a href="{% url 'signup' %}">Зареєструватися</a>
-                <a href="{% url 'password_reset' %}">Забув пароль?</a>
+                <a href="{% url 'signup' %}" class="auth-link">Зареєструватися</a>
+                <a href="{% url 'password_reset' %}" class="auth-link secondary">Забув пароль?</a>
             </div>
         </form>
     </div>

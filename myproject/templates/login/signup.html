@@ -1,15 +1,15 @@
 {% extends 'main/layout.html' %}
 {% load static %}
-{% block title %}Вхід{% endblock %}
+{% block title %}Реєстрація{% endblock %}
 {% block content %}
 
-<div class="form-container2">
-    <div class="form-wrapper">
-      <form method="POST" class="register-form">
-        <h2>Реєстрація</h2>
+<div class="form-container2 page-centered-container">
+    <div class="form-wrapper glass-auth-card">
+      <form method="POST" class="register-form custom-form">
+        <h2>Реєстрація у <span class="accent-text">FRAMELAB</span></h2>
           {% csrf_token %}
            {{ form.as_p }}
-        <button type="submit">Зареєструватися</button>
+        <button type="submit" id="auth_button">Зареєструватися</button>
       </form>
     </div>
 </div>

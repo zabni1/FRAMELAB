@@ -30,10 +30,12 @@
     transition: 0.3s;
     position: relative;
     overflow: hidden;
-    min-height: 80px;
+    min-height: 20px;
     justify-content: center;
     text-align: left;
-    padding-bottom: 30px;
+    padding-bottom: 35px;
+    width: 280px;
+    height: 50px;
 }
 
 .grid-frame:hover {
@@ -43,7 +45,7 @@
 
 .grid-frame a {
     position: absolute;
-    inset: 0;
+    inset: 0; /* Розтягує посилання на весь блок */
     display: flex;
     align-items: flex-start;   /* центр по вертикалі */
     justify-content: flex-start; /* текст зліва */
@@ -76,19 +78,22 @@
     cursor: pointer;
     transition: 0.3s;
     margin-left: auto;
-    bottom: 55px;
+    bottom: 40px;
     padding: 0;
     border: none;
     background: none;
     line-height: 0;
-    left: 28px;
+    left: 168px;
+
 }
 
 .grid-frame button:hover {
     box-shadow: none;
+
 }
 
 .grid-frame button img {
     width: 70px;
     height: 50px;
+
 }

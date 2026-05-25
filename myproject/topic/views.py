@@ -136,7 +136,7 @@ def get_replies(request, pk):
     if request.headers.get('HX-Request'):
         data = DataMixin()
         context = data.get_context_replies(pk=pk, email=request.user.email)
-        return render(request, 'partials/reply_comment.html', context)
+        return render(request, 'partials/get_reply.html', context)
     return redirect('topic')
 
 
@@ -163,7 +163,7 @@ def create_reply_on_reply(request, pk, username):
                              comment_id=pk)
         data = DataMixin()
         context = data.get_context_replies(pk=pk, email=request.user.email)
-        return render(request, 'partials/reply_comment.html', context)
+        return render(request, 'partials/get_reply.html', context)
     return redirect('topic')
 
 
@@ -173,7 +173,7 @@ def delete_reply(request, pk):
         data = DataMixin()
         context = data.get_context_replies(pk=a.comment_id, email=request.user.email)
         a.delete()
-        return render(request, 'partials/reply_comment.html', context)
+        return render(request, 'partials/get_reply.html', context)
     return redirect('topic')
 
 def like_reply(request, pk):

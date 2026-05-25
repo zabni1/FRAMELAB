@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
+from django.template.response import TemplateResponse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .forms import ProfileForm, RegisterForm, ProfileUserForm
@@ -29,9 +30,9 @@ def user_login(request):
     return render(request, 'login/login.html', {'form': form})
 
 
-def signup_confirm(request):
+def signup(request):
     token_generator = default_token_generator
-    if request.method == 'POST':
+    if request.headers.get('HX-Request'):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
@@ -48,14 +49,10 @@ def signup_confirm(request):
                 'username': user.username,
             }
             confirm_email(email=user.email, context=context)
-            return redirect('signup_complete')
+            return TemplateResponse(request, 'login/signup_complete.html', context)
     else:
         form = RegisterForm()
     return render(request, 'login/signup.html',{'form': form})
-
-
-def signup_complete(request):
-    return render(request, 'login/signup_complete.html')
 
 
 def signup_done(request, uidb64, token):

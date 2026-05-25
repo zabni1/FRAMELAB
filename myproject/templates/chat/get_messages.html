@@ -1,16 +1,15 @@
-    <div id="loader" class="htmx-indicator">Завантаження...</div>
-    <div hx-get="{% url 'get_messages' page %}"
-         hx-target="#chat"
-         hx-indicator="#loader"
-         hx-swap="afterend"
-         hx-trigger="revealed"></div>
-    <div class="messages">
+<div id="loader" class="htmx-indicator chat-loader"><span class="spinner"></span> Завантаження...</div>
+<div hx-get="{% url 'get_messages' page %}"
+     hx-target="#chat"
+     hx-indicator="#loader"
+     hx-swap="afterend"
+     hx-trigger="revealed"></div>
+<div class="messages chat-messages-list" id="messages">
             {% for a in messages %}
                 {% if a.user1 == request.user.pk %}
-                <h5 class="message user_message">{{ a.message }}</h5>
+                <h5 class="message user_message user-bubble">{{ a.message }}</h5>
                 {% else %}
-                <h5 class="message">{{ a.message }}</h5>
+                <h5 class="message ai-bubble">{{ a.message }}</h5>
                 {% endif %}
             {% endfor %}
-    </div>
-
+</div>

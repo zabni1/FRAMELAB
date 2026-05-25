@@ -6,9 +6,13 @@
 <div class="profile">
     <div class="profile-info-side">
         {% if user.photo %}
-            <img src="{{ user.photo.url }}">
+            <div class="profile-avatar">
+                <img src="{{ user.photo.url }}">
+            </div>
         {% else %}
-            <img src="{{ photo }}">
+            <div class="profile-avatar">
+                <img src="{{ photo }}">
+            </div>
             <div class="user-names">
                 <b>{{ user.full_name }}</b>
                 <span>{{ user.username }}</span>

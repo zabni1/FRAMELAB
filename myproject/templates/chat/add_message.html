@@ -1,33 +1,32 @@
+<div class="messages chat-messages-list" id="messages">
+        {% for a in messages %}
+            {% if a.user1 == request.user.pk %}
+            <h5 class="message user_message user-bubble">{{ a.message }}</h5>
+            {% else %}
+            <h5 class="message ai-bubble">{{ a.message }}</h5>
+            {% endif %}
+        {% endfor %}
+</div>
 
-    <div class="messages">
-            {% for a in messages %}
-                {% if a.user1 == request.user.pk %}
-                <h5 class="message user_message">{{ a.message }}</h5>
-                {% else %}
-                <h5 class="message">{{ a.message }}</h5>
-                {% endif %}
-            {% endfor %}
-    </div>
+<div hx-get="{% url 'get_message' message %}"
+     hx-target="#messages"
+     hx-swap="beforeend"
+     hx-trigger="load"></div>
 
-    <div hx-get="{% url 'get_message' message %}"
-         hx-target="#messages"
-         hx-swap="beforeend"
-         hx-trigger="load"></div>
+<div class="chat-input chat-input-card"
+     hx-swap-oob="true">
+    <form hx-post="{% url 'add_message'  %}"
+          hx-target="#messages"
+          hx-swap="beforeend"
+          class="chat-form">
+          {% csrf_token %}
+          <input name="message"
+                 type="text"
+                 id="chat_input"
+                 maxlength="200"
+                 placeholder="Зачекайте, ШІ генерує відповідь..."
+                 readonly>
 
-
-    <div class="chat-input"
-         id="chat-input"
-         hx-swap-oob="true">
-        <form hx-post="{% url 'add_message'  %}"
-              hx-target="#messages"
-              hx-swap="beforeend">
-              {% csrf_token %}
-              <input name="message"
-                     type="text"
-                     id="chat_input"
-                     maxlength="200"
-                     readonly>
-
-            <button id="chat_button" type="submit">Відправити</button>
-        </form>
-    </div>
+        <button id="chat_button" type="submit" style="display: none;">Відправити</button>
+    </form>
+</div>

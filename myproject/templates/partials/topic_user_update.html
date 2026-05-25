@@ -4,19 +4,12 @@
         <div class="topic-preview-card saved-card">
             <a href="{{ a.get_absolute_url }}" class="topic-card-link">
                 <div class="saved-topic-header">
-                    <img src="{{ a.detail.photo.url }}" class="saved-topic-img">
-                    <h3 class="saved-topic-title">{{ a.detail.name }}</h3>
+                    <h2 class="saved-topic-title">{{ a.title }}</h2>
                 </div>
             </a>
             <div class="comment-actions saved-controls">
-                <button class="inline-action"
-                        hx-get="{% url 'topic_update' a.pk %}"
-                        hx-target="#topics"
-                        hx-swap="innerHTML">Редагувати</button>
-                <button class="inline-action delete-btn"
-                        hx-get="{% url 'topic_delete' a.id %}"
-                        hx-target="#topics"
-                        hx-swap="innerHTML">Видалити</button>
+                <a href="{% url 'topic_update' a.pk %}" class="inline-action">Редагувати</a>
+                <a href="{% url 'topic_delete' a.pk %}" class="inline-action delete-btn">Видалити</a>
             </div>
         </div>
         {% endfor %}

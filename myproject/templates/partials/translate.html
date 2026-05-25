@@ -2,41 +2,55 @@
 <div id="main-content"
      hx-swap-oob="true">
         <div class="content-wrapper">
+              <section class="hero-section">
+                    <h1 class="main-title">你的编程之路 <span>开始</span></h1>
+                    <p class="subtitle">在 FRAMELAB 互动平台学习语言、框架和库。</p>
 
-            <div class="txt1">
-                <p><b>FRAMELAB 是什么</b></p>
-                <p>FRAMELAB — 是一个在线编程语言学习平台。网站面向那些想要开始编程之路或提升已有技能的人。</p>
-
-                <p><b>在 FRAMELAB 上你能学到什么?</b></p>
-                <p>在该平台上，您可以学习各种编程语言以及用于创建现代网站和应用程序的技术。</p>
-
-                <p><b>为什么选择 FRAMELAB？</b></p>
-                <p>LOGO 让编程学习变得简单易懂，随时随地都能学习。</p>
-            </div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="icon">🚀</div>
+                            <h3>什么是 FRAMELAB？</h3>
+                            <p>一个学习平台，理论+实践结合。</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="icon">📚</div>
+                            <h3>为什么选我们？</h3>
+                            <p>不只学语法，还学真实框架和库。</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="icon">⏰</div>
+                            <h3>你的节奏</h3>
+                            <p>随时学，不限时间，无压力。</p>
+                        </div>
+                    </div>
+              </section>
 
 
                 <div class="grid-container">
                     {% for a in languages %}
                     <div class="grid-item">
-                        <a href="{{ a.get_absolute_url }}">{{ a.name }}</a>
+                        <a href="{{ a.get_absolute_url }}">
+                        <img src="{{ a.photo.url }}" class="lang-icon">
+                         <span>{{ a.name }}</span>
+                        </a>
                     </div>
                     {% endfor %}
                 </div>
         </div>
 
-        <footer id="footer" class="footer">
+        <footer class="footer" id="footer">
             <div class="footer-container">
                 <div>
-                    <span class="logo-foot"><a>FRAMELAB</a></span>
-                    <p><b>FRAMELAB</b>-一个在线平台 <br> 帮助你学习各种编程语言</p>
+                    <span class="logo-foot"><a>LOGO</a></span>
+                    <p><b>LOGO</b>是一个在线编程语言学习平台</p>
                 </div>
 
                 <div>
                     <h4>导航</h4>
                     <ul>
-                        <li><a href="{% url 'home' %}">首页</a></li>
+                        <li><a href="{% url 'home' %}">主页</a></li>
                         <li><a href="#">关于我们</a></li>
-                        <li><a href="#">联系方式</a></li>
+                        <li><a href="#">联系我们</a></li>
                     </ul>
                 </div>
 
@@ -50,6 +64,7 @@
             </div>
         </footer>
 </div>
+
 
         <header class="container">
             <span class="logo"><a href="{% url 'home' %}"> FrameLab </a></span>
@@ -65,10 +80,10 @@
                        hx-trigger="keyup changed delay:500ms">
                 <ul>
                     <li class="active"><a href="{% url 'home' %}">首页</a></li>
-                    <li><a href="#footer">关于我们</a></li>
-                    <li><a href="{% url 'topic' %}">主题</a></li>
-                    <li><a href="{% url 'chat' %}">聊天</a></li>
-                    <li><a href="{% url 'home' %}"><img src="{% static 'main/img/ukrainian.png' %}" alt="User"></a></li>
+                    <li class="active"><a href="#footer">关于我们</a></li>
+                    <li class="active"><a href="{% url 'topic' %}">分公司</a></li>
+                    <li class="active"><a href="{% url 'chat' %}">聊天</a></li>
+                    <li class="active"><a href="{% url 'home' %}"><img src="{% static 'main/img/ukrainian.png' %}" alt="User"></a></li>
                     {% if user.is_authenticated %}
                     <div class="prof">
                         <li class="btn"><a href="{% url 'profile' request.user.username %}">个人资料</a></li>

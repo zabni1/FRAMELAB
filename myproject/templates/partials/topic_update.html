@@ -1,19 +1,19 @@
-<div class="topics-list-container">
+<div class="topics-list-container profile-topics-side">
     {% for p in topics %}
     <a href="{{ p.get_absolute_url }}" class="topic-card-link">
-        <div class="topic-preview-card">
+        <div class="topic-preview-card topic-card-item">
             <div class="meta-column">
                 <span class="author-badge">Автор: {{ p.username }}</span>
                 <span class="category-text">Категорія: {{ p.category }}</span>
             </div>
-            <h1 class="topic-preview-title">{{ p.name }}</h1>
+            <h1 class="topic-preview-title">{{ p.title }}</h1>
         </div>
     </a>
     {% endfor %}
 
     <div id="topic-content"></div>
 
-    <div id="loader" class="htmx-indicator loader-style">
+    <div id="loader" class="htmx-indicator chat-loader">
         <div class="spinner"></div>
         <span>Завантаження тем...</span>
     </div>

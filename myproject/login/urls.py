@@ -6,8 +6,7 @@ from . import views
 urlpatterns = [
     path('login', views.user_login, name='login'),
     path('logout', views.user_logout, name='logout'),
-    path('signup', views.signup_confirm, name='signup'),
-    path('signup-complete', views.signup_complete, name='signup_complete'),
+    path('signup', views.signup, name='signup'),
     path('signup-done/<uidb64>/<token>/', views.signup_done, name='signup_done'),
     path('profile/<username>', views.profile, name='profile'),
     path('profile/update/<username>', views.update_profile, name='update_profile'),

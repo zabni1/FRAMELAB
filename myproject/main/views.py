@@ -64,7 +64,7 @@ class UpdateSavedView(DataMixin, View):
                                         detail=Technology.objects.get(slug=delete_slug))
                 get.delete()
                 context = self.get_saves_data(request.user.email, show_cat)
-                return render(request, 'partials/category_delete.html', context)
+                return render(request, 'partials/category_update.html', context)
         return redirect('home')
 
 

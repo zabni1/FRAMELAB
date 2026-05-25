@@ -12,6 +12,30 @@ body {
     width: 100%;
     color: #FAFAF9;
     font-weight: 400;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(79, 172, 254, 0.15) 0%, transparent 70%);
+    top: 10%;
+    right: -100px;
+    z-index: -1;
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, transparent 70%);
+    bottom: 20%;
+    left: -150px;
+    z-index: -1;
 }
 
 a {
@@ -20,91 +44,127 @@ a {
 }
 
 header {
-    padding: 50px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 20px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 1000px;
-    margin: 0 auto;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+header .logo, header nav {
+    max-width: 1000px;
+}
+
+header {
+    justify-content: center;
+    gap: 50px;
 }
 
 header .logo {
     text-transform: uppercase;
-    font-size: 43px;
-    font-weight: 700;
+    font-size: 34px;
+    font-weight: 800;
     flex-shrink: 0;
+    letter-spacing: 1px;
 }
 
 header nav {
     display: flex;
     align-items: center;
     gap: 30px;
-    flex-grow: 1;
-    justify-content: flex-end;
 }
 
 header .form-control {
-    width: 250px;
-    height: 40px;
+    width: 220px;
+    height: 38px;
     border-radius: 40px;
-    background-color: #ffffff;
-    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 0 15px;
-    margin-right: auto;
-    margin-left: 50px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+header .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+header .form-control:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #4facfe;
+    outline: none;
+    width: 250px;
 }
 
 header nav ul {
-    font-size: 16px;
+    font-size: 15px;
     display: flex;
-    gap: 40px;
+    gap: 30px;
     align-items: center;
     list-style: none;
-    margin: 0;
-    padding: 0;
-
 }
 
 header nav ul li a {
-    color: #fff;
-    transition: all 150ms ease;
-    white-space: nowrap;
-    position: relative;
-    padding-bottom: 5px;
+    color: #b3b3b3;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 header nav ul li a:hover {
-    color: #5f605b;
+    color: #4facfe;
 }
 
-header nav ul li:not(.active):not(.btn) a:hover {
-    border-bottom: 5px solid #323231;
-    border-radius: 5px;
+header nav ul li:not(.btn) a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #4facfe;
+    transition: width 0.3s;
+}
+
+header nav ul li:not(.btn) a:hover::after {
+    width: 100%;
 }
 
 header nav ul li img {
-    width: 38px;
-    vertical-align: middle;
+    width: 28px;
+    border-radius: 4px;
 }
 
 .prof {
     display: flex;
     align-items: center;
-    gap: -25px;
-    min-width: 220px;
-    justify-content: flex-end;
+    gap: 15px;
+    position: relative;
+    top: 10px;
 }
 
 .prof .btn a {
-    background: #44403C;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #fff;
-    padding: 10px 20px;
+    padding: 8px 20px;
     border-radius: 10px;
-    transition: all 500ms ease;
-    display: block;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 14px;
 }
 
 .prof .btn a:hover {
-    background: #2a2828;
-    box-shadow: 0 6px 12px black;
+    background: rgba(79, 172, 254, 0.1);
+    border-color: #4facfe;
+    color: #4facfe;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.2);
+}
+
+.active a {
+    font-weight: 600;
+    position: relative;
+    top: 10px;
 }
