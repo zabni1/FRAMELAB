@@ -19,7 +19,8 @@
             <a href="{% url 'delete_profile' user.username %}">Видалити профіль</a>
             <a href="{% url 'logout' %}">Вийти</a>
         </div>
-        <div class="profile-topics-side">
+        <div class="profile-topics-side"
+             id="profile-topics">
         {% if topics %}
             <div id="topics-user"></div>
             <div id="loader" class="htmx-indicator">Завантаження...</div>

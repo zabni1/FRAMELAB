@@ -1,9 +1,11 @@
 from django.db.models import Count
 from django.shortcuts import render, redirect
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView, TemplateView
+from transliterate import translit
+
 from .forms import TopicCreateForm
 from .models import Topic, Comment, Reply, Likes
 from .utils import DataMixin
@@ -52,11 +54,12 @@ class TopicCreateView(View):
 
     def post(self, request):
         form = TopicCreateForm(request.POST)
+
         if form.is_valid():
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
             category = form.cleaned_data['category']
-            slug = slugify(title)
+            slug = slugify(translit(title, reversed=True))
             Topic.objects.create(title=title,
                                  description=description,
                                  email = request.user.email,

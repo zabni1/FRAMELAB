@@ -10,7 +10,9 @@
             </a>
             <div class="comment-actions saved-controls">
                 <a href="{% url 'topic_update' a.pk %}" class="inline-action">Редагувати</a>
-                <a href="{% url 'topic_delete' a.pk %}" class="inline-action delete-btn">Видалити</a>
+                <a hx-get="{% url 'topic_delete' a.pk %}" class="inline-action delete-btn"
+                   hx-target="#topics"
+                   hx-swap="innerHTML">Видалити</a>
             </div>
         </div>
         {% endfor %}

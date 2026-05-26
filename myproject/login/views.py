@@ -89,16 +89,16 @@ def profile(request, username):
 
 @login_required(login_url='login')
 def update_profile(request, username):
-    user = get_user_model().objects.get(username=username)
+    get_user = get_user_model().objects.get(username=username)
     photo = settings.DEFAULT_USER_IMAGE
     if request.method == 'POST':
         form = ProfileUserForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            return redirect('profile', username=username)
+            user = form.save()
+            return redirect('profile', username=user.username)
     else:
         form = ProfileUserForm(instance=request.user)
-    return render(request, 'login/update_profile.html', {'form': form, 'photo': photo, 'user': user})
+    return render(request, 'login/update_profile.html', {'form': form, 'photo': photo, 'user': get_user})
 
 @login_required(login_url='login')
 def delete_profile(request, username):

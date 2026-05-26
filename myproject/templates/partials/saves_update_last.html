@@ -5,10 +5,10 @@
             <div class="grid-frame">
                 <a href="{{ a.detail.file.url }}">
                 <h2>{{ a.detail.name }}</h2>
-                <h3>{{ a.detail.description }}</h3>
+                <h3>{{ a.detail.description }}</h3></a>
                 <button hx-get="{% url 'saves_delete' a.id %}"
                         hx-target="#saves"
-                        hx-swap="innerHTML"><img src="{% static 'main/img/saves.png' %}" alt="Зберігти"></button></a>
+                        hx-swap="innerHTML"><img src="{% static 'main/img/saves.png' %}" alt="Зберігти"></button>
             </div>
         {% endfor %}
     </div>

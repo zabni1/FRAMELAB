@@ -713,4 +713,63 @@ Vanya, [25.05.2026 15:41]
     display: block;
 }
 
+.update-profile{
+    position: relative;
+    left: 37%;
+    margin-top: 5%;
 
+}
+
+.update-profile img{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    margin-left: 78px;
+    border: 2px solid #00cfeb;
+
+}
+
+.update-profile-inside{
+    padding: 30px;
+    background: #181818;
+    width: 350px;
+    height: 460px;
+    border: 1px solid #333;
+    border-radius: 15px;
+    z-index: 3;
+
+}
+
+.update-profile-inside input{
+    border: 1px solid black;
+    border-radius: 9px;
+
+}
+
+
+
+.update-profile-inside button{
+    margin-top: 0px;
+    margin-left: 85px;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #252525;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.3s;
+    border: none;
+
+}
+
+.update-profile-inside button:hover {
+    background: #333;
+
+}
+
+
+.profile-info-side a:hover {
+    background: #333;
+}

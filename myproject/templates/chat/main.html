@@ -42,9 +42,6 @@
         <button id="chat_button" type="submit" >Відправити</button>
     </form>
     {% else %}
-    <div class="chat-input chat-input-card"
-         id="chat-input"
-         hx-swap-oob="true">
     <form hx-post="{% url 'add_message' %}"
           hx-target="#messages"
           hx-swap="innerHTML"
