@@ -12,22 +12,25 @@
                     <div class="grid-frame"><a href="{{ a.file.url }}">
                         <h2>{{ a.name }}</h2>
                         <h3>{{ a.description }}</h3></a>
-                    {% if not a.pk in saved %}
-                        <button name="update_slug"
-                                value="{{ a.slug }}"
-                                hx-get="{% url 'update_saved' show_cat %}"
-                                hx-target="#content"
-                                hx-swap="innerHTML"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></button>
-                    {% elif a.pk in saved %}
-                        <button name="delete_slug"
-                                value="{{ a.slug }}"
-                                hx-get="{% url 'update_saved' show_cat %}"
-                                hx-target="#content"
-                                hx-swap="innerHTML"><img src="{% static 'main/img/saves.png' %}" alt="Зберігти"></button>
-                    {% elif not user.is_authenticated %}
-                        <button class=""><a href="{% url 'login' %}"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></a></button>
+                    {% if user.is_authenticated %}
+                        {% if not a.pk in saved %}
+                            <button name="update_slug"
+                                    value="{{ a.slug }}"
+                                    hx-get="{% url 'update_saved' show_cat %}"
+                                    hx-target="#content"
+                                    hx-swap="innerHTML"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></button>
+                        {% elif a.pk in saved %}
+                            <button name="delete_slug"
+                                    value="{{ a.slug }}"
+                                    hx-get="{% url 'update_saved' show_cat %}"
+                                    hx-target="#content"
+                                    hx-swap="innerHTML"><img src="{% static 'main/img/saves.png' %}" alt="Зберігти"></button>
+                        {% endif %}
+                    {% else %}
+                            <form action="{% url 'login' %}">
+                                <button type="submit"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></button>
+                            </form>
                     {% endif %}
-
                     </div>
             {% endif %}
         {% endfor %}
@@ -40,6 +43,7 @@
             <div class="grid-frame"><a href="{{ a.file.url }}">
                 <h2>{{ a.name }}</h2>
                 <h3>{{ a.description }}</h3></a>
+                {% if user.is_authenticated %}
                     {% if not a.pk in saved %}
                         <button name="update_slug"
                                 value="{{ a.slug }}"
@@ -55,7 +59,11 @@
                     {% elif not user.is_authenticated %}
                         <button class=""><a href="{% url 'login' %}"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></a></button>
                     {% endif %}
-
+                {% else %}
+                        <form action="{% url 'login' %}">
+                            <button type="submit"><img src="{% static 'main/img/save.png' %}" alt="Зберігти"></button>
+                        </form>
+                {% endif %}
                 </div>
             {% endif %}
         {% endfor %}
