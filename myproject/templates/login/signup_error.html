@@ -1,11 +1,4 @@
-{% extends 'main/layout.html' %}
-{% load static %}
-{% block title %}Реєстрація{% endblock %}
-{% block content %}
-
-<div class="form-container2 page-centered-container"
-     id="signup">
-    <div class="form-wrapper glass-auth-card">
+<div class="form-wrapper glass-auth-card">
       <form hx-post="signup" class="register-form custom-form"
             hx-target="#signup"
             hx-swap="innerHTML">
@@ -19,6 +12,3 @@
         <button type="submit" id="auth_button">Зареєструватися</button>
       </form>
     </div>
-</div>
-
-{% endblock %}

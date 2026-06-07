@@ -138,7 +138,10 @@ def get_input_for_reply_on_reply(request, pk, username):
 def get_replies(request, pk):
     if request.headers.get('HX-Request'):
         data = DataMixin()
-        context = data.get_context_replies(pk=pk, email=request.user.email)
+        if request.user.is_authenticated:
+            context = data.get_context_replies(pk=pk, email=request.user.email)
+        else:
+            context = data.get_context_replies(pk=pk, email=None)
         return render(request, 'partials/get_reply.html', context)
     return redirect('topic')
 

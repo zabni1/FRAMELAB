@@ -5,7 +5,6 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, FormView, UpdateView
 from .models import Language, Technology, TechnologyDetail, Saved
-from .forms import LanguageForm
 from .utils import DataMixin
 
 
@@ -88,23 +87,11 @@ class DetailPageView(DetailView):
         context['detail'] = TechnologyDetail.objects.filter(tech_id=self.object.pk)
         return context
 
-class AboutPageView(TemplateView):
-    template_name = ''
-
-    def get_context_data(self, **kwargs):
-        context = super(AboutPageView, self).get_context_data(**kwargs)
-        return context
-
-
-def test_view(request):
-    form = LanguageForm()
-    return render(request, 'main/test.html', {'form': form})
-
-def save_test(request, key):
-    if request.headers.get('HX-Request'):
-            return render(request, 'partials/cat_delete.html', {'key': key})
-    return reverse('home')
 
 
 def error_view(request, exception):
-    return render(request, 'main/error.html', {'exception': exception})
+    return render(request, 'main/error.html')
+
+
+def error_500_view(request):
+    return render(request, 'main/error.html')

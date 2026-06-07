@@ -32,8 +32,8 @@ def user_login(request):
 
 def signup(request):
     token_generator = default_token_generator
+    form = RegisterForm(request.POST)
     if request.headers.get('HX-Request'):
-        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
@@ -50,6 +50,8 @@ def signup(request):
             }
             confirm_email(email=user.email, context=context)
             return TemplateResponse(request, 'login/signup_complete.html', context)
+        else:
+            return TemplateResponse(request, 'login/signup_error.html', {'form': form})
     else:
         form = RegisterForm()
     return render(request, 'login/signup.html',{'form': form})

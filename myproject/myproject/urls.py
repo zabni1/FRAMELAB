@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from main.views import error_view
+from main.views import error_view, error_500_view
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = ([
@@ -17,3 +17,4 @@ urlpatterns = ([
 
 
 handler404 = error_view
+handler500 = error_500_view
